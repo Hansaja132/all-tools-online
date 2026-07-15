@@ -1,0 +1,26 @@
+{
+  "name": "tools-website-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Enterprise-grade Multi-Tools Website monorepo starter",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "database"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,css}\"",
+    "db:generate": "npm run generate --workspace=database",
+    "db:migrate": "npm run migrate --workspace=database",
+    "db:studio": "npm run studio --workspace=database"
+  },
+  "devDependencies": {
+    "turbo": "^1.10.15",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2",
+    "eslint": "^8.49.0"
+  }
+}
