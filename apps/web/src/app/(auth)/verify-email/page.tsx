@@ -6,7 +6,7 @@ import { Card, Button, LoadingSpinner } from '@tools-website/ui';
 import { CheckCircle2, AlertCircle } from 'lucide-react';
 import { axiosClient } from '../../../lib/api/axios-client';
 
-export default function VerifyEmailPage() {
+function VerifyEmailContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
   const [status, setStatus] = React.useState<'loading' | 'success' | 'error'>('loading');
@@ -67,5 +67,17 @@ export default function VerifyEmailPage() {
         )}
       </Card>
     </div>
+  );
+}
+
+export default function VerifyEmailPage() {
+  return (
+    <React.Suspense fallback={
+      <div className="mx-auto flex max-w-md flex-col justify-center px-4 py-16 text-center text-sm text-zinc-500">
+        Loading...
+      </div>
+    }>
+      <VerifyEmailContent />
+    </React.Suspense>
   );
 }

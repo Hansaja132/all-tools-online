@@ -8,7 +8,7 @@ import { ResetPasswordSchema, ResetPasswordInput } from '@tools-website/shared-t
 import { Button, Input, Card } from '@tools-website/ui';
 import { axiosClient } from '../../../lib/api/axios-client';
 
-export default function ResetPasswordPage() {
+function ResetPasswordContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token') || '';
   const [success, setSuccess] = React.useState(false);
@@ -92,5 +92,17 @@ export default function ResetPasswordPage() {
         )}
       </Card>
     </div>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <React.Suspense fallback={
+      <div className="mx-auto flex max-w-md flex-col justify-center px-4 py-16 text-center text-sm text-zinc-500">
+        Loading...
+      </div>
+    }>
+      <ResetPasswordContent />
+    </React.Suspense>
   );
 }

@@ -9,8 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@tanstack/react-query": "^4.35.3",
     "@hookform/resolvers": "^3.3.1",
+    "@tanstack/react-query": "^4.35.3",
     "@tools-website/config": "*",
     "@tools-website/shared-types": "*",
     "@tools-website/ui": "*",
@@ -19,7 +19,7 @@
     "clsx": "^2.0.0",
     "framer-motion": "^10.16.4",
     "lucide-react": "^0.292.0",
-    "next": "^13.5.4",
+    "next": "^16.2.12",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.46.1",

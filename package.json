@@ -13,9 +13,9 @@
     "build": "turbo run build",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,css}\"",
-    "db:generate": "npm run generate --workspace=database",
-    "db:migrate": "npm run migrate --workspace=database",
-    "db:studio": "npm run studio --workspace=database"
+    "db:generate": "prisma generate --schema=database/prisma/schema.prisma",
+    "db:migrate": "prisma db push --schema=database/prisma/schema.prisma",
+    "db:studio": "prisma studio --schema=database/prisma/schema.prisma"
   },
   "devDependencies": {
     "turbo": "^1.10.15",

@@ -9,7 +9,7 @@ export class TokenService {
     return jwt.sign(
       { id: user.id, email: user.email, role: user.role },
       ACCESS_SECRET,
-      { expiresIn: process.env.JWT_ACCESS_EXPIRATION || '15m' }
+      { expiresIn: (process.env.JWT_ACCESS_EXPIRATION || '15m') as any }
     );
   }
 
@@ -17,7 +17,7 @@ export class TokenService {
     return jwt.sign(
       { id: user.id },
       REFRESH_SECRET,
-      { expiresIn: process.env.JWT_REFRESH_EXPIRATION || '7d' }
+      { expiresIn: (process.env.JWT_REFRESH_EXPIRATION || '7d') as any }
     );
   }
 

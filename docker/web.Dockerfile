@@ -1,4 +1,4 @@
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 WORKDIR /usr/src/app
 
 COPY package*.json ./
@@ -17,13 +17,12 @@ COPY . .
 
 RUN npx turbo run build --filter=@tools-website/web
 
-FROM node:18-alpine AS runner
+FROM node:20-alpine AS runner
 WORKDIR /usr/src/app
 
 COPY package*.json ./
 COPY --from=builder /usr/src/app/node_modules ./node_modules
 COPY --from=builder /usr/src/app/apps/web/.next ./apps/web/.next
-COPY --from=builder /usr/src/app/apps/web/public ./apps/web/public
 COPY --from=builder /usr/src/app/apps/web/package.json ./apps/web/package.json
 COPY --from=builder /usr/src/app/packages ./packages
 
