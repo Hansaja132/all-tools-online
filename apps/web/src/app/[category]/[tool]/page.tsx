@@ -7,10 +7,11 @@ import { Breadcrumb, Card, Button } from '@tools-website/ui';
 import { toolsRegistry } from '../../../features/registry';
 import { generateBreadcrumbJsonLd, generateFAQJsonLd, generateHowToJsonLd } from '@tools-website/utils';
 
-export default function ToolPage({ params }: { params: { category: string; tool: string } }) {
-  const category = siteConfig.categories.find((c) => c.slug === params.category);
+export default function ToolPage({ params }: { params: Promise<{ category: string; tool: string }> }) {
+  const resolvedParams = React.use(params);
+  const category = siteConfig.categories.find((c) => c.slug === resolvedParams.category);
   const toolMeta = (siteConfig as any).tools.find(
-    (t: any) => t.slug === params.tool && t.category === params.category
+    (t: any) => t.slug === resolvedParams.tool && t.category === resolvedParams.category
   );
 
   if (!category || !toolMeta) {

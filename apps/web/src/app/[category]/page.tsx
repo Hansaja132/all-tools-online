@@ -8,8 +8,9 @@ import { Code2, Image, FileText, Palette, ArrowRight, Heart } from 'lucide-react
 import { useFavoritesStore } from '../../lib/store/favorites-store';
 import { generateBreadcrumbJsonLd } from '@tools-website/utils';
 
-export default function CategoryPage({ params }: { params: { category: string } }) {
-  const category = siteConfig.categories.find((c) => c.slug === params.category);
+export default function CategoryPage({ params }: { params: Promise<{ category: string }> }) {
+  const resolvedParams = React.use(params);
+  const category = siteConfig.categories.find((c) => c.slug === resolvedParams.category);
   const { isFavorite, toggleFavorite } = useFavoritesStore();
 
   if (!category) {
