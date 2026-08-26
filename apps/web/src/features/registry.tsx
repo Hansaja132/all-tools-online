@@ -7,6 +7,7 @@ import { Base64Tool } from './text-tools/base64/tool-component';
 import { MarkdownPreview } from './text-tools/markdown-preview/tool-component';
 import { WordCounter } from './text-tools/word-counter/tool-component';
 import { ColorPicker } from './color-tools/color-picker/tool-component';
+import { BinanceWodl } from './crypto-tools/binance-wodl/tool-component';
 
 export interface ToolRegistryItem {
   component: React.ReactNode;
@@ -150,6 +151,31 @@ export const toolsRegistry: Record<string, ToolRegistryItem> = {
         { name: 'Pick colors', text: 'Select color 1 and color 2 using the color picker wheels.' },
         { name: 'Set direction', text: 'Configure angles and type styles for the CSS background.' },
         { name: 'Export background', text: 'Copy code rules directly into your stylesheet project.' },
+      ],
+    },
+  },
+  'binance-wodl': {
+    component: <BinanceWodl />,
+    faqs: [
+      {
+        question: 'What is Binance WODL?',
+        answer: 'Binance WODL (Word of the Day / Crypto WODL) is a word-guessing mini-game hosted by Binance. Players get six attempts to guess a mystery word based on weekly crypto-related themes.',
+      },
+      {
+        question: 'How does the Guess Helper work?',
+        answer: 'The Guess Helper dynamically filters word candidates by matching correct positions (Green), present letters (Yellow), and excluded letters (Gray) against pre-seeded lists and custom-added words.',
+      },
+      {
+        question: 'Is my custom word data secure?',
+        answer: 'Yes. Any custom weekly themes or words you input are stored locally in your browser via localStorage. No backend upload takes place.',
+      },
+    ],
+    guide: {
+      title: 'How to use Binance WODL Helper',
+      steps: [
+        { name: 'Select Weekly Theme', text: 'Select a theme from the left pane to check pre-loaded or custom weekly words.' },
+        { name: 'Input Current Clues', text: 'In the right sidebar solver, select the word length and fill in Green letters for correct positions, Yellow for present, and Gray for absent letters.' },
+        { name: 'Copy Candidates', text: 'Click any generated candidate word to copy it instantly and test it in your game.' },
       ],
     },
   },

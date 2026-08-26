@@ -68,6 +68,13 @@ export const siteConfig = {
       description: 'Pick colors, create gradients and generate palettes.',
       icon: 'Palette',
     },
+    {
+      id: 'crypto-tools',
+      name: 'Crypto Tools',
+      slug: 'crypto-tools',
+      description: 'Track, search, and manage weekly Binance WODL words, calculators, and blockchain helpers.',
+      icon: 'Coins',
+    },
   ],
   tools: [
     {
@@ -125,6 +132,13 @@ export const siteConfig = {
       category: 'color-tools',
       description: 'Interactive canvas color wheel, HEX/RGB conversions, and linear/radial CSS gradient builders.',
       keywords: ['color picker', 'gradient', 'css gradient', 'rgb to hex', 'palette builder'],
+    },
+    {
+      name: 'Binance WODL Words',
+      slug: 'binance-wodl',
+      category: 'crypto-tools',
+      description: 'Find the complete list of weekly Binance WODL / Word of the Day answers grouped by letters (3-8 letters). Search past themes, filter by length, and submit/update new weekly words.',
+      keywords: ['binance wodl', 'binance word of the day', 'crypto wodl', 'wodl answers', 'wodl list'],
     },
   ],
 };
