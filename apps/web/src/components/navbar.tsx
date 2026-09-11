@@ -45,7 +45,12 @@ export const Navbar: React.FC = () => {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <div className="flex items-center space-x-6">
-          <a href="/" className="flex items-center space-x-2.5">
+          <a href="/" className="flex items-center space-x-3 group">
+            <img
+              src="/logo.png"
+              alt={siteConfig.name}
+              className="h-9 w-9 rounded-lg object-contain transition-transform group-hover:scale-105"
+            />
             <span className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-2xl font-black tracking-tight text-transparent dark:from-violet-400 dark:to-indigo-400">
               {siteConfig.name}
             </span>

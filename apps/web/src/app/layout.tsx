@@ -11,6 +11,11 @@ export const metadata = {
   },
   description: siteConfig.description,
   metadataBase: new URL(siteConfig.url),
+  icons: {
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
+  },
   openGraph: {
     title: siteConfig.seo.defaultTitle,
     description: siteConfig.description,
@@ -29,6 +34,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full" suppressHydrationWarning>
       <head>
+        <link rel="icon" href="/favicon.png" sizes="any" />
+        <link rel="apple-touch-icon" href="/favicon.png" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -57,6 +64,10 @@ export default function RootLayout({
           </main>
           <footer className="border-t border-zinc-200 bg-white py-8 dark:border-zinc-800 dark:bg-zinc-950 text-zinc-500 dark:text-zinc-400">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center text-sm">
+              <div className="flex items-center justify-center space-x-2 mb-3">
+                <img src="/logo.png" alt={siteConfig.name} className="h-6 w-6 object-contain" />
+                <span className="font-bold text-zinc-900 dark:text-zinc-100">{siteConfig.name}</span>
+              </div>
               <p>&copy; {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</p>
               <div className="mt-3 flex justify-center space-x-6">
                 <a href="/privacy" className="hover:underline">Privacy Policy</a>

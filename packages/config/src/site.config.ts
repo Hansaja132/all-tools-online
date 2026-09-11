@@ -140,5 +140,12 @@ export const siteConfig = {
       description: 'Find the complete list of weekly Binance WODL / Word of the Day answers grouped by letters (3-8 letters). Search past themes, filter by length, and submit/update new weekly words.',
       keywords: ['binance wodl', 'binance word of the day', 'crypto wodl', 'wodl answers', 'wodl list'],
     },
+    {
+      name: 'Randomizer Wheel',
+      slug: 'randomizer-wheel',
+      category: 'text-tools',
+      description: 'Interactive spin-the-wheel random picker with customizable entries, color palettes, sound effects, presets, and winner celebrations.',
+      keywords: ['randomizer wheel', 'spin wheel', 'wheel of names', 'random picker', 'picker wheel', 'decision maker'],
+    },
   ],
 };

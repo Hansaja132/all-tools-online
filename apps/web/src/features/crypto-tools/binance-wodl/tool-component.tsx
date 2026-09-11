@@ -1,14 +1,12 @@
 'use client';
 
 import * as React from 'react';
-import { Button, Input, Modal, Select } from '@tools-website/ui';
-import { useToast } from '@tools-website/ui';
+import { Button, Input, Modal, Select, useToast } from '@tools-website/ui';
 import {
   Coins,
   Search,
   Plus,
   Trash2,
-  HelpCircle,
   Clipboard,
   Check,
   RotateCcw,
@@ -16,6 +14,16 @@ import {
   Calendar,
   Layers,
   Info,
+  Copy,
+  Zap,
+  Filter,
+  CheckCircle2,
+  Wand2,
+  BookOpen,
+  Tag,
+  ChevronRight,
+  RefreshCw,
+  Share2,
 } from 'lucide-react';
 
 interface WodlTheme {
@@ -88,6 +96,8 @@ const PRE_SEEDED_THEMES: WodlTheme[] = [
   },
 ];
 
+const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
 export const BinanceWodl: React.FC = () => {
   const { toast } = useToast();
 
@@ -122,9 +132,9 @@ export const BinanceWodl: React.FC = () => {
     if (stored) {
       try {
         const parsed = JSON.parse(stored) as WodlTheme[];
-        // Filter custom items to prevent pollution, and combine
         const custom = parsed.filter((t) => t.isCustom);
-        setThemes([...custom, ...PRE_SEEDED_THEMES]);
+        const combined = [...custom, ...PRE_SEEDED_THEMES];
+        setThemes(combined);
         if (custom.length > 0) {
           setSelectedThemeId(custom[0].id);
         } else {
@@ -140,7 +150,7 @@ export const BinanceWodl: React.FC = () => {
     }
   }, []);
 
-  // Update solver green letters size when length changes
+  // Update solver green letters array size when solver length changes
   React.useEffect(() => {
     setGreenLetters(Array(solverLength).fill(''));
   }, [solverLength]);
@@ -148,8 +158,27 @@ export const BinanceWodl: React.FC = () => {
   const handleCopyWord = (word: string) => {
     navigator.clipboard.writeText(word);
     setCopiedWord(word);
-    toast('Copied to Clipboard!', `"${word}" has been successfully copied.`, 'success');
+    toast('Copied to Clipboard!', `"${word}" copied.`, 'success');
     setTimeout(() => setCopiedWord(null), 2000);
+  };
+
+  const handleCopyAllThemeWords = (theme: WodlTheme) => {
+    let allWords: string[] = [];
+    if (selectedLengthTab === 'All') {
+      allWords = Object.values(theme.words).flat();
+    } else {
+      const lenKey = Number(selectedLengthTab) as 3 | 4 | 5 | 6 | 7 | 8;
+      allWords = theme.words[lenKey] || [];
+    }
+
+    if (allWords.length === 0) {
+      toast('No Words', 'No words available in the current selection to copy.', 'info');
+      return;
+    }
+
+    const textToCopy = `Binance WODL (${theme.theme}): ${allWords.join(', ')}`;
+    navigator.clipboard.writeText(textToCopy);
+    toast('Copied Theme Words', `Copied ${allWords.length} words to clipboard.`, 'success');
   };
 
   const handleAddThemeSubmit = (e: React.FormEvent) => {
@@ -184,13 +213,12 @@ export const BinanceWodl: React.FC = () => {
     const updatedThemes = [customTheme, ...themes];
     setThemes(updatedThemes);
 
-    // Save custom themes only
     const customOnly = updatedThemes.filter((t) => t.isCustom);
     localStorage.setItem('binance-wodl-themes', JSON.stringify(customOnly));
 
     setSelectedThemeId(customTheme.id);
     setIsAddModalOpen(false);
-    toast('Theme Added', `Theme "${newThemeName}" has been added to your lists.`, 'success');
+    toast('Theme Added', `Theme "${newThemeName}" has been added.`, 'success');
 
     // Reset Form
     setNewThemeName('');
@@ -203,6 +231,18 @@ export const BinanceWodl: React.FC = () => {
     setNewWords8('');
   };
 
+  const handlePreFillSample = () => {
+    setNewThemeName('Crypto Trading & AI');
+    setNewWeekRange('Sep 01, 2026 - Sep 07, 2026');
+    setNewWords3('AI, BOT, API');
+    setNewWords4('GRID, ALGO, NODE, COPY');
+    setNewWords5('CHART, ORDER, MINER, MODEL');
+    setNewWords6('SIGNAL, MARGIN, PROMPT, AGENT');
+    setNewWords7('TRADING, FUTURE, AUDITOR');
+    setNewWords8('BOTNETS, ANALYSIS, PLATFORM');
+    toast('Sample Loaded', 'Pre-filled sample Binance WODL theme fields.', 'info');
+  };
+
   const handleDeleteTheme = (id: string, name: string) => {
     const updated = themes.filter((t) => t.id !== id);
     setThemes(updated);
@@ -212,13 +252,8 @@ export const BinanceWodl: React.FC = () => {
 
     toast('Theme Deleted', `"${name}" has been deleted.`, 'info');
 
-    // fallback select
     if (selectedThemeId === id) {
-      if (updated.length > 0) {
-        setSelectedThemeId(updated[0].id);
-      } else {
-        setSelectedThemeId('');
-      }
+      setSelectedThemeId(updated.length > 0 ? updated[0].id : '');
     }
   };
 
@@ -227,13 +262,13 @@ export const BinanceWodl: React.FC = () => {
       localStorage.removeItem('binance-wodl-themes');
       setThemes(PRE_SEEDED_THEMES);
       setSelectedThemeId(PRE_SEEDED_THEMES[0].id);
-      toast('Reset Complete', 'Default themes have been restored.', 'info');
+      toast('Reset Complete', 'Default Binance themes have been restored.', 'info');
     }
   };
 
   const selectedTheme = themes.find((t) => t.id === selectedThemeId);
 
-  // Filter themes in list based on search query
+  // Filter themes based on search query
   const filteredThemes = themes.filter(
     (t) =>
       t.theme.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -243,41 +278,40 @@ export const BinanceWodl: React.FC = () => {
         .some((w) => w.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
+  // Total words metric
+  const totalWordsInDatabase = React.useMemo(() => {
+    return themes.reduce((acc, t) => acc + Object.values(t.words).flat().length, 0);
+  }, [themes]);
+
   // Solver Candidate calculations
   const solverCandidates = React.useMemo(() => {
-    // 1. Collect words to search
     let targetWords: string[] = [];
 
     if (solverSearchGlobal) {
-      // search all themes
       themes.forEach((t) => {
         const list = t.words[solverLength as 3 | 4 | 5 | 6 | 7 | 8];
         if (list) targetWords.push(...list);
       });
     } else if (selectedTheme) {
-      // search selected theme only
       const list = selectedTheme.words[solverLength as 3 | 4 | 5 | 6 | 7 | 8];
       if (list) targetWords.push(...list);
     }
 
-    // Deduplicate
     targetWords = Array.from(new Set(targetWords));
 
-    // 2. Apply Filters
     const yellowArr = yellowLetters
       .toUpperCase()
-      .split(/[,\s]*/)
+      .split(/[,\s]+/)
       .filter(Boolean);
     const grayArr = grayLetters
       .toUpperCase()
-      .split(/[,\s]*/)
+      .split(/[,\s]+/)
       .filter(Boolean);
 
     return targetWords.filter((word) => {
-      // Check length
       if (word.length !== solverLength) return false;
 
-      // Match Green letters (exact position)
+      // Green check
       for (let i = 0; i < solverLength; i++) {
         const requiredChar = greenLetters[i]?.toUpperCase();
         if (requiredChar && requiredChar !== '_' && requiredChar !== ' ') {
@@ -285,12 +319,12 @@ export const BinanceWodl: React.FC = () => {
         }
       }
 
-      // Match Yellow letters (word contains letter, and if position specific isn't requested)
+      // Yellow check
       for (const char of yellowArr) {
         if (!word.includes(char)) return false;
       }
 
-      // Match Gray letters (word must NOT contain letter)
+      // Gray check
       for (const char of grayArr) {
         if (word.includes(char)) return false;
       }
@@ -308,17 +342,67 @@ export const BinanceWodl: React.FC = () => {
   ]);
 
   const handleGreenLetterChange = (index: number, val: string) => {
-    const char = val.slice(-1).toUpperCase(); // take last typed character
+    const char = val.slice(-1).toUpperCase();
     setGreenLetters((prev) => {
       const copy = [...prev];
       copy[index] = char;
       return copy;
     });
 
-    // Auto-focus next input box if typed
     if (char && index < solverLength - 1) {
       const nextInput = document.getElementById(`green-input-${index + 1}`);
       if (nextInput) nextInput.focus();
+    }
+  };
+
+  const handleGreenKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Backspace' && !greenLetters[index] && index > 0) {
+      const prevInput = document.getElementById(`green-input-${index - 1}`);
+      if (prevInput) {
+        prevInput.focus();
+        setGreenLetters((prev) => {
+          const copy = [...prev];
+          copy[index - 1] = '';
+          return copy;
+        });
+      }
+    } else if (e.key === 'ArrowLeft' && index > 0) {
+      const prevInput = document.getElementById(`green-input-${index - 1}`);
+      if (prevInput) prevInput.focus();
+    } else if (e.key === 'ArrowRight' && index < solverLength - 1) {
+      const nextInput = document.getElementById(`green-input-${index + 1}`);
+      if (nextInput) nextInput.focus();
+    }
+  };
+
+  // Toggle letter in Alphabet matrix: Default -> Gray -> Yellow -> Default
+  const handleToggleKeypadLetter = (char: string) => {
+    const yellowArr = yellowLetters
+      .toUpperCase()
+      .split(/[,\s]+/)
+      .filter(Boolean);
+    const grayArr = grayLetters
+      .toUpperCase()
+      .split(/[,\s]+/)
+      .filter(Boolean);
+
+    const isGray = grayArr.includes(char);
+    const isYellow = yellowArr.includes(char);
+
+    if (isGray) {
+      // Gray -> Yellow
+      const newGray = grayArr.filter((c) => c !== char).join(', ');
+      const newYellow = [...yellowArr, char].join(', ');
+      setGrayLetters(newGray);
+      setYellowLetters(newYellow);
+    } else if (isYellow) {
+      // Yellow -> Default
+      const newYellow = yellowArr.filter((c) => c !== char).join(', ');
+      setYellowLetters(newYellow);
+    } else {
+      // Default -> Gray
+      const newGray = [...grayArr, char].join(', ');
+      setGrayLetters(newGray);
     }
   };
 
@@ -326,165 +410,224 @@ export const BinanceWodl: React.FC = () => {
     setGreenLetters(Array(solverLength).fill(''));
     setYellowLetters('');
     setGrayLetters('');
-    toast('Solver Cleared', 'Filter criteria has been reset.', 'info');
+    toast('Solver Cleared', 'All filter criteria reset.', 'info');
   };
 
   return (
     <div className="space-y-8">
-      {/* Upper Banner Accent */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 p-6 text-zinc-950 shadow-md md:p-8">
-        <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-yellow-300 opacity-20 blur-2xl" />
-        <div className="relative z-10 max-w-3xl">
-          <div className="inline-flex items-center space-x-2 rounded-full bg-black/10 px-3 py-1 text-xs font-semibold tracking-wider">
-            <Coins className="h-3.5 w-3.5" />
-            <span>BINANCE CRYPTO WODL UTILITIES</span>
+      {/* Premium Hero Banner (Binance Obsidian Dark & Gold Aesthetics) */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-zinc-950 via-zinc-900 to-amber-950 p-6 md:p-8 text-white border border-amber-500/20 shadow-2xl">
+        {/* Glow Effects */}
+        <div className="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-amber-500/10 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-yellow-500/10 blur-3xl pointer-events-none" />
+
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="max-w-2xl space-y-3">
+            <div className="inline-flex items-center space-x-2 rounded-full bg-amber-500/10 border border-amber-500/30 px-3.5 py-1 text-xs font-bold text-amber-400 backdrop-blur-md">
+              <Coins className="h-4 w-4 text-amber-400 animate-pulse" />
+              <span className="tracking-wider uppercase">Binance Crypto WODL Hub</span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-zinc-100">
+              Weekly Binance WODL <span className="text-amber-400">Word Assistant</span>
+            </h1>
+            <p className="text-sm sm:text-base text-zinc-300 font-medium leading-relaxed">
+              Instantly look up weekly Binance Word of the Day answers (3–8 letters), track past themes, and use the real-time interactive solver grid to crack today's puzzle.
+            </p>
           </div>
-          <h2 className="mt-4 text-2xl font-extrabold tracking-tight md:text-3xl">
-            Weekly Word of the Day (WODL) Hub
-          </h2>
-          <p className="mt-2 text-sm text-zinc-900/80 md:text-base font-medium">
-            Stay ahead of the game with direct lookups of current and past themes. Add new words
-            instantly and use the live interactive guess assistant to solve daily Binance WODL puzzles.
-          </p>
+
+          {/* Quick Metrics Cards */}
+          <div className="grid grid-cols-3 gap-3 bg-zinc-900/80 p-3.5 rounded-2xl border border-zinc-800 backdrop-blur-xl min-w-[280px]">
+            <div className="text-center p-2 rounded-xl bg-zinc-800/40">
+              <span className="block text-xl font-black text-amber-400">{themes.length}</span>
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Themes</span>
+            </div>
+            <div className="text-center p-2 rounded-xl bg-zinc-800/40">
+              <span className="block text-xl font-black text-amber-400">{totalWordsInDatabase}</span>
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Words</span>
+            </div>
+            <div className="text-center p-2 rounded-xl bg-zinc-800/40">
+              <span className="block text-xl font-black text-amber-400">3-8</span>
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Lengths</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-3">
-        {/* Left Columns - Word Lists and Week Selector */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Header Action Row */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
-            <div className="relative w-full sm:max-w-xs">
-              <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-zinc-400">
-                <Search className="h-4 w-4" />
-              </span>
+      {/* Main Content Layout */}
+      <div className="grid gap-8 lg:grid-cols-12">
+        {/* Left Column: Theme Explorer & Word Browser (7 cols) */}
+        <div className="lg:col-span-7 space-y-6">
+          {/* Header Action Bar */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-between items-stretch sm:items-center">
+            <div className="relative flex-1">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
               <Input
                 type="text"
                 placeholder="Search themes or words..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-9 w-full"
+                className="pl-10 rounded-xl bg-white dark:bg-zinc-900/80 border-zinc-200 dark:border-zinc-800 shadow-sm"
               />
             </div>
 
-            <div className="flex gap-2 w-full sm:w-auto">
+            <div className="flex gap-2">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => setIsAddModalOpen(true)}
-                className="flex items-center space-x-1.5 w-full sm:w-auto border-amber-500/20 hover:border-amber-500"
+                className="flex items-center space-x-1.5 rounded-xl border-amber-500/30 hover:border-amber-500 text-amber-600 dark:text-amber-400 bg-amber-500/5 font-bold shadow-sm"
               >
-                <Plus className="h-4 w-4 text-amber-500" />
-                <span>Add Weekly Words</span>
+                <Plus className="h-4 w-4" />
+                <span>Add Theme</span>
               </Button>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={handleResetToDefaults}
-                className="text-zinc-500 hover:text-red-500 flex items-center space-x-1 w-full sm:w-auto"
-                title="Reset local storage and restore default seed words"
+                className="text-zinc-500 hover:text-red-500 rounded-xl"
+                title="Reset to default seed themes"
               >
-                <RotateCcw className="h-3.5 w-3.5" />
-                <span>Reset Default</span>
+                <RotateCcw className="h-4 w-4" />
               </Button>
             </div>
           </div>
 
-          {/* Grid Layout of Themes */}
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-3">
-              <label className="text-sm font-bold text-zinc-700 dark:text-zinc-300">
-                Select Theme / Week
-              </label>
-              <div className="space-y-2.5 max-h-[480px] overflow-y-auto pr-1">
+          {/* Theme List & Selected Theme Details Grid */}
+          <div className="grid gap-6 md:grid-cols-12">
+            {/* Theme Selector List (5 cols) */}
+            <div className="md:col-span-5 space-y-3">
+              <div className="flex justify-between items-center px-1">
+                <span className="text-xs font-black uppercase tracking-wider text-zinc-500 dark:text-zinc-400 flex items-center">
+                  <BookOpen className="h-3.5 w-3.5 mr-1.5 text-amber-500" />
+                  Select Week
+                </span>
+                <span className="text-[10px] font-bold text-zinc-400">
+                  {filteredThemes.length} available
+                </span>
+              </div>
+
+              <div className="space-y-2.5 max-h-[500px] overflow-y-auto pr-1">
                 {filteredThemes.length > 0 ? (
                   filteredThemes.map((theme) => {
                     const isSelected = selectedThemeId === theme.id;
-                    const totalWordsCount = Object.values(theme.words).flat().length;
+                    const count = Object.values(theme.words).flat().length;
 
                     return (
                       <div
                         key={theme.id}
                         onClick={() => setSelectedThemeId(theme.id)}
-                        className={`group relative cursor-pointer rounded-xl border p-4 transition-all duration-200 ${
+                        className={`group relative cursor-pointer rounded-2xl p-4 transition-all duration-200 border ${
                           isSelected
-                            ? 'border-amber-500 bg-amber-50/30 dark:bg-amber-950/10 shadow-sm'
-                            : 'border-zinc-200 bg-white hover:border-zinc-300 dark:border-zinc-800 dark:bg-zinc-900/40 dark:hover:border-zinc-700'
+                            ? 'border-amber-500 bg-amber-500/10 dark:bg-amber-500/10 shadow-md ring-1 ring-amber-500/30'
+                            : 'border-zinc-200 bg-white hover:border-zinc-300 dark:border-zinc-800/80 dark:bg-zinc-900/50 dark:hover:border-zinc-700 hover:shadow-sm'
                         }`}
                       >
                         <div className="flex justify-between items-start">
-                          <div>
-                            <h4 className="font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-amber-500 transition-colors">
+                          <div className="space-y-1">
+                            <h4
+                              className={`font-black text-sm transition-colors ${
+                                isSelected
+                                  ? 'text-amber-600 dark:text-amber-400'
+                                  : 'text-zinc-900 dark:text-zinc-100 group-hover:text-amber-500'
+                              }`}
+                            >
                               {theme.theme}
                             </h4>
-                            <p className="mt-1 flex items-center text-xs text-zinc-500 dark:text-zinc-400">
-                              <Calendar className="mr-1.5 h-3.5 w-3.5 text-zinc-400" />
+                            <p className="flex items-center text-[11px] font-medium text-zinc-500 dark:text-zinc-400">
+                              <Calendar className="mr-1 h-3 w-3 text-zinc-400" />
                               {theme.weekRange}
                             </p>
                           </div>
-                          <div className="flex items-center space-x-2">
-                            <span className="rounded-full bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 text-[10px] font-semibold text-zinc-500 dark:text-zinc-400">
-                              {totalWordsCount} words
+                          {theme.isCustom && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteTheme(theme.id, theme.theme);
+                              }}
+                              className="text-zinc-400 hover:text-red-500 p-1 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors"
+                              title="Delete custom theme"
+                            >
+                              <Trash2 className="h-3.5 w-3.5" />
+                            </button>
+                          )}
+                        </div>
+
+                        <div className="mt-3 flex items-center justify-between border-t border-zinc-100 dark:border-zinc-800/60 pt-2.5">
+                          <span className="inline-flex items-center rounded-md bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 text-[10px] font-bold text-zinc-600 dark:text-zinc-400">
+                            {count} words
+                          </span>
+                          {isSelected && (
+                            <span className="text-[10px] font-black uppercase text-amber-500 tracking-wider flex items-center">
+                              Active <ChevronRight className="h-3 w-3 ml-0.5" />
                             </span>
-                            {theme.isCustom && (
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleDeleteTheme(theme.id, theme.theme);
-                                }}
-                                className="text-zinc-400 hover:text-red-500 p-1 rounded hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors"
-                                title="Delete custom theme"
-                              >
-                                <Trash2 className="h-3.5 w-3.5" />
-                              </button>
-                            )}
-                          </div>
+                          )}
                         </div>
                       </div>
                     );
                   })
                 ) : (
-                  <div className="rounded-xl border border-dashed border-zinc-200 p-8 text-center dark:border-zinc-800">
-                    <p className="text-zinc-500 dark:text-zinc-400 text-sm">No themes found matching search.</p>
+                  <div className="rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 p-8 text-center">
+                    <p className="text-zinc-500 text-xs">No themes found matching search.</p>
                   </div>
                 )}
               </div>
             </div>
 
-            {/* Word Display Panel */}
-            <div className="flex flex-col rounded-2xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900/40 p-6 h-full min-h-[480px] shadow-sm">
+            {/* Word Display Panel (7 cols) */}
+            <div className="md:col-span-7 flex flex-col rounded-2xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900/50 p-6 min-h-[500px] shadow-sm">
               {selectedTheme ? (
                 <>
-                  <div className="border-b border-zinc-100 pb-4 dark:border-zinc-800 flex justify-between items-center">
-                    <div className="space-y-1">
-                      <span className="text-[10px] text-amber-600 dark:text-amber-400 font-black uppercase tracking-widest">
-                        Active Selection
+                  <div className="border-b border-zinc-100 dark:border-zinc-800 pb-4 flex justify-between items-start">
+                    <div>
+                      <span className="text-[10px] text-amber-500 font-black uppercase tracking-widest block">
+                        Selected Theme
                       </span>
                       <h3 className="text-xl font-black text-zinc-900 dark:text-zinc-100 leading-tight">
                         {selectedTheme.theme}
                       </h3>
+                      <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+                        {selectedTheme.weekRange}
+                      </p>
                     </div>
+
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleCopyAllThemeWords(selectedTheme)}
+                      className="rounded-xl border-zinc-200 dark:border-zinc-800 font-bold text-xs flex items-center space-x-1.5"
+                      title="Copy all words in this theme"
+                    >
+                      <Share2 className="h-3.5 w-3.5 text-amber-500" />
+                      <span className="hidden sm:inline">Copy All</span>
+                    </Button>
                   </div>
 
-                  {/* Tab Selector for Letters */}
-                  <div className="my-6 flex flex-wrap gap-1 bg-zinc-100 dark:bg-zinc-800/60 p-1.5 rounded-xl">
-                    {['All', '3', '4', '5', '6', '7', '8'].map((tab) => (
-                      <button
-                        key={tab}
-                        onClick={() => setSelectedLengthTab(tab)}
-                        className={`flex-1 text-center py-2 px-3 rounded-lg text-xs font-bold transition-all ${
-                          selectedLengthTab === tab
-                            ? 'bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white shadow-sm scale-[1.02]'
-                            : 'text-zinc-500 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-200/50 dark:hover:bg-zinc-800/50'
-                        }`}
-                      >
-                        {tab === 'All' ? 'All' : `${tab}L`}
-                      </button>
-                    ))}
+                  {/* Filter Tabs by Letter Length */}
+                  <div className="my-5 flex flex-wrap gap-1 bg-zinc-100 dark:bg-zinc-800/60 p-1.5 rounded-2xl">
+                    {['All', '3', '4', '5', '6', '7', '8'].map((tab) => {
+                      const count =
+                        tab === 'All'
+                          ? Object.values(selectedTheme.words).flat().length
+                          : selectedTheme.words[Number(tab) as 3 | 4 | 5 | 6 | 7 | 8]?.length || 0;
+
+                      return (
+                        <button
+                          key={tab}
+                          onClick={() => setSelectedLengthTab(tab)}
+                          className={`flex-1 text-center py-2 px-2 rounded-xl text-xs font-bold transition-all ${
+                            selectedLengthTab === tab
+                              ? 'bg-amber-500 text-zinc-950 shadow-md font-black scale-[1.02]'
+                              : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60 dark:hover:bg-zinc-800'
+                          }`}
+                        >
+                          {tab === 'All' ? `All (${count})` : `${tab}L (${count})`}
+                        </button>
+                      );
+                    })}
                   </div>
 
                   {/* Words Badges List */}
-                  <div className="flex-1 overflow-y-auto space-y-6 max-h-[300px] pr-2">
+                  <div className="flex-1 overflow-y-auto space-y-5 max-h-[340px] pr-2">
                     {Object.entries(selectedTheme.words).map(([lengthKey, wordsList]) => {
                       if (selectedLengthTab !== 'All' && selectedLengthTab !== lengthKey) {
                         return null;
@@ -493,9 +636,9 @@ export const BinanceWodl: React.FC = () => {
                       if (wordsList.length === 0) return null;
 
                       return (
-                        <div key={lengthKey} className="space-y-3">
-                          <h5 className="text-xs font-black text-zinc-400 dark:text-zinc-500 uppercase flex items-center tracking-wider">
-                            <Layers className="h-3.5 w-3.5 mr-2 text-amber-500" />
+                        <div key={lengthKey} className="space-y-2.5">
+                          <h5 className="text-[11px] font-black text-zinc-400 dark:text-zinc-500 uppercase flex items-center tracking-wider">
+                            <Tag className="h-3 w-3 mr-1.5 text-amber-500" />
                             {lengthKey}-Letter Words ({wordsList.length})
                           </h5>
                           <div className="flex flex-wrap gap-2">
@@ -503,13 +646,13 @@ export const BinanceWodl: React.FC = () => {
                               <button
                                 key={word}
                                 onClick={() => handleCopyWord(word)}
-                                className="group inline-flex items-center space-x-2 rounded-lg border border-zinc-200 bg-white hover:border-amber-500 hover:bg-amber-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-amber-500/50 dark:hover:bg-amber-950/20 px-3 py-2 text-sm font-bold text-zinc-800 dark:text-zinc-200 transition-all active:scale-95"
+                                className="group inline-flex items-center space-x-2 rounded-xl border border-zinc-200 bg-zinc-50 hover:border-amber-500 hover:bg-amber-500/10 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-amber-500/50 dark:hover:bg-amber-500/10 px-3 py-2 text-sm font-black text-zinc-800 dark:text-zinc-200 transition-all active:scale-95 shadow-sm"
                               >
                                 <span>{word}</span>
                                 {copiedWord === word ? (
-                                  <Check className="h-3.5 w-3.5 text-green-500" />
+                                  <Check className="h-3.5 w-3.5 text-emerald-500" />
                                 ) : (
-                                  <Clipboard className="h-3.5 w-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                  <Clipboard className="h-3.5 w-3.5 text-zinc-400 opacity-40 group-hover:opacity-100 transition-opacity" />
                                 )}
                               </button>
                             ))}
@@ -519,51 +662,60 @@ export const BinanceWodl: React.FC = () => {
                     })}
 
                     {selectedLengthTab !== 'All' &&
-                      (!selectedTheme.words[selectedLengthTab as unknown as 3 | 4 | 5 | 6 | 7 | 8] ||
-                        selectedTheme.words[selectedLengthTab as unknown as 3 | 4 | 5 | 6 | 7 | 8]
+                      (!selectedTheme.words[Number(selectedLengthTab) as 3 | 4 | 5 | 6 | 7 | 8] ||
+                        selectedTheme.words[Number(selectedLengthTab) as 3 | 4 | 5 | 6 | 7 | 8]
                           .length === 0) && (
-                        <div className="py-12 text-center text-zinc-400 dark:text-zinc-500 text-sm italic">
-                          No {selectedLengthTab}-letter words available in this theme.
+                        <div className="py-12 text-center text-zinc-400 text-xs italic">
+                          No {selectedLengthTab}-letter words recorded for this theme.
                         </div>
                       )}
                   </div>
 
-                  <div className="mt-6 rounded-xl bg-zinc-50 dark:bg-zinc-900/80 p-4 border border-zinc-100 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400 flex items-start space-x-3">
-                    <Info className="h-4 w-4 text-amber-500 mt-0.5 flex-shrink-0" />
-                    <span className="leading-relaxed">
-                      Click any word badge above to copy it to clipboard. WODL words are updated weekly.
-                    </span>
+                  <div className="mt-4 rounded-xl bg-amber-500/5 border border-amber-500/20 p-3.5 text-xs text-zinc-600 dark:text-zinc-400 flex items-center space-x-2.5">
+                    <Info className="h-4 w-4 text-amber-500 flex-shrink-0" />
+                    <span>Click any word badge above to copy it instantly to your clipboard.</span>
                   </div>
                 </>
               ) : (
-                <div className="flex-grow flex flex-col justify-center items-center text-zinc-500 dark:text-zinc-400">
-                  <Coins className="h-12 w-12 text-zinc-300 mb-3" />
-                  <p className="text-sm font-medium">Please select a theme from the left pane.</p>
+                <div className="flex-grow flex flex-col justify-center items-center text-zinc-400 py-12">
+                  <Coins className="h-12 w-12 text-zinc-300 dark:text-zinc-700 mb-3" />
+                  <p className="text-sm font-medium">Select a theme from the left pane.</p>
                 </div>
               )}
             </div>
           </div>
         </div>
 
-        {/* Right Sidebar - Interactive Solver Helper */}
-        <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900/40 shadow-sm flex flex-col h-full">
-          <div className="flex items-center space-x-3 border-b border-zinc-100 pb-4 dark:border-zinc-800">
-            <div className="rounded-xl bg-amber-500/10 p-2 text-amber-500">
-              <Sparkles className="h-6 w-6" />
+        {/* Right Column: Interactive Wordle / WODL Solver Helper (5 cols) */}
+        <div className="lg:col-span-5 rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900/50 shadow-xl flex flex-col h-full">
+          <div className="flex items-center justify-between border-b border-zinc-100 pb-4 dark:border-zinc-800">
+            <div className="flex items-center space-x-3">
+              <div className="rounded-2xl bg-amber-500/10 p-2.5 text-amber-500 border border-amber-500/20">
+                <Sparkles className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="text-lg font-black text-zinc-900 dark:text-zinc-100">WODL Solver Assistant</h3>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">Interactive live puzzle solver</p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-lg font-black text-zinc-900 dark:text-zinc-100">WODL Guess Helper</h3>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400">Solve today's puzzle in real-time</p>
-            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleResetSolver}
+              className="text-zinc-400 hover:text-red-500 rounded-xl"
+              title="Clear all solver criteria"
+            >
+              <RotateCcw className="h-4 w-4" />
+            </Button>
           </div>
 
           <div className="mt-6 space-y-6 flex-grow">
-            {/* Word Length Selector */}
-            <div className="flex items-center justify-between p-3 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800/80">
-              <label className="text-xs font-black text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
-                Word Length
-              </label>
-              <div className="w-32">
+            {/* Word Length Selector & Scope */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
+                <label className="block text-[10px] font-black text-zinc-500 uppercase tracking-wider mb-1">
+                  Word Length
+                </label>
                 <Select
                   value={solverLength}
                   onChange={(e) => setSolverLength(Number(e.target.value))}
@@ -577,28 +729,31 @@ export const BinanceWodl: React.FC = () => {
                   ]}
                 />
               </div>
+
+              <div className="p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex flex-col justify-center">
+                <label className="flex items-center space-x-2 text-xs font-bold text-zinc-700 dark:text-zinc-300 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={solverSearchGlobal}
+                    onChange={(e) => setSolverSearchGlobal(e.target.checked)}
+                    className="h-4 w-4 rounded border-zinc-300 text-amber-500 focus:ring-amber-500"
+                  />
+                  <span>Search All Themes</span>
+                </label>
+                <span className="text-[10px] text-zinc-400 mt-1">
+                  {solverSearchGlobal ? 'Searching global database' : 'Active theme only'}
+                </span>
+              </div>
             </div>
 
-            {/* Scope Selector */}
-            <div className="flex items-center justify-between py-2 px-3 bg-zinc-50 dark:bg-zinc-900 rounded-lg border border-zinc-100 dark:border-zinc-800/80">
-              <label htmlFor="search-global" className="text-xs font-bold text-zinc-600 dark:text-zinc-400 cursor-pointer">
-                Search all themes
-              </label>
-              <input
-                id="search-global"
-                type="checkbox"
-                checked={solverSearchGlobal}
-                onChange={(e) => setSolverSearchGlobal(e.target.checked)}
-                className="h-4 w-4 rounded border-zinc-300 text-amber-500 focus:ring-amber-500"
-              />
-            </div>
-
-            {/* Green Letters Zone */}
-            <div className="p-4 rounded-xl bg-green-50/50 dark:bg-green-950/10 border border-green-100 dark:border-green-900/30">
-              <label className="mb-3 block text-[10px] font-black text-green-600 dark:text-green-400 uppercase tracking-widest flex items-center justify-between">
-                <span>Green Letters (Correct Spot)</span>
-                <span className="text-zinc-400 font-normal lowercase italic">Leave blank if unknown</span>
-              </label>
+            {/* Green Letters Zone (Exact Position Tile Input Grid) */}
+            <div className="p-4 rounded-2xl bg-emerald-500/5 dark:bg-emerald-950/20 border border-emerald-500/20">
+              <div className="flex justify-between items-center mb-3">
+                <span className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest flex items-center">
+                  <CheckCircle2 className="h-3.5 w-3.5 mr-1" /> Green Letters (Correct Spot)
+                </span>
+                <span className="text-[10px] text-zinc-400">Use arrow keys or backspace</span>
+              </div>
               <div className="flex gap-2 justify-center">
                 {greenLetters.map((letter, idx) => (
                   <input
@@ -608,81 +763,112 @@ export const BinanceWodl: React.FC = () => {
                     maxLength={1}
                     value={letter}
                     onChange={(e) => handleGreenLetterChange(idx, e.target.value)}
-                    className="h-12 w-10 rounded-lg border-2 border-green-200 dark:border-green-900/50 bg-white dark:bg-zinc-900 text-center font-black text-zinc-900 dark:text-white focus:border-green-500 focus:ring-green-500 dark:focus:border-green-600 uppercase text-xl shadow-sm"
+                    onKeyDown={(e) => handleGreenKeyDown(idx, e)}
+                    className="h-12 w-10 sm:w-11 rounded-xl border-2 border-emerald-500/40 dark:border-emerald-700/50 bg-white dark:bg-zinc-900 text-center font-black text-zinc-900 dark:text-emerald-400 focus:border-emerald-500 focus:ring-emerald-500 uppercase text-xl shadow-sm transition-all"
                     placeholder="_"
                   />
                 ))}
               </div>
             </div>
 
-            {/* Yellow & Gray Zones */}
-            <div className="grid grid-cols-1 gap-4">
-              <div className="p-4 rounded-xl bg-amber-50/50 dark:bg-amber-950/10 border border-amber-100 dark:border-amber-900/30">
-                <label className="mb-2 block text-[10px] font-black text-amber-600 dark:text-amber-400 uppercase tracking-widest">
-                  Yellow Letters (Present in Word)
+            {/* Yellow & Gray Text Inputs */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="p-3.5 rounded-2xl bg-amber-500/5 dark:bg-amber-950/20 border border-amber-500/20">
+                <label className="block text-[10px] font-black text-amber-600 dark:text-amber-400 uppercase tracking-widest mb-1.5">
+                  Yellow (Present)
                 </label>
                 <Input
                   type="text"
-                  placeholder="E.g. A, E"
+                  placeholder="E.g. A, E, T"
                   value={yellowLetters}
                   onChange={(e) => setYellowLetters(e.target.value)}
-                  className="uppercase placeholder:normal-case focus:ring-amber-500 focus:border-amber-500 bg-white dark:bg-zinc-900"
+                  className="uppercase text-xs font-bold bg-white dark:bg-zinc-900"
                 />
               </div>
 
-              <div className="p-4 rounded-xl bg-red-50/50 dark:bg-red-950/10 border border-red-100 dark:border-red-900/30">
-                <label className="mb-2 block text-[10px] font-black text-red-600 dark:text-red-400 uppercase tracking-widest">
-                  Gray Letters (Exclude from Word)
+              <div className="p-3.5 rounded-2xl bg-rose-500/5 dark:bg-rose-950/20 border border-rose-500/20">
+                <label className="block text-[10px] font-black text-rose-600 dark:text-rose-400 uppercase tracking-widest mb-1.5">
+                  Gray (Excluded)
                 </label>
                 <Input
                   type="text"
-                  placeholder="E.g. R, T, S"
+                  placeholder="E.g. X, Z, O"
                   value={grayLetters}
                   onChange={(e) => setGrayLetters(e.target.value)}
-                  className="uppercase placeholder:normal-case focus:ring-red-500 focus:border-red-500 bg-white dark:bg-zinc-900"
+                  className="uppercase text-xs font-bold bg-white dark:bg-zinc-900"
                 />
               </div>
             </div>
 
-            {/* Action Row */}
-            <div className="flex space-x-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleResetSolver}
-                className="flex-1 flex items-center justify-center space-x-1.5 border-zinc-200 dark:border-zinc-800 font-bold"
-              >
-                <RotateCcw className="h-3.5 w-3.5" />
-                <span>Clear Criteria</span>
-              </Button>
+            {/* Interactive Alphabet Keypad Grid */}
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <span className="text-[10px] font-black text-zinc-400 uppercase tracking-wider">
+                  Quick Letter Elimination Grid
+                </span>
+                <span className="text-[10px] text-zinc-400 italic">Tap letter to toggle</span>
+              </div>
+              <div className="grid grid-cols-7 sm:grid-cols-9 gap-1.5">
+                {ALPHABET.map((char) => {
+                  const yellowArr = yellowLetters.toUpperCase().split(/[,\s]+/).filter(Boolean);
+                  const grayArr = grayLetters.toUpperCase().split(/[,\s]+/).filter(Boolean);
+
+                  const isYellow = yellowArr.includes(char);
+                  const isGray = grayArr.includes(char);
+
+                  let bgClass = 'bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700';
+                  if (isGray) {
+                    bgClass = 'bg-rose-500/20 text-rose-500 border-rose-500/40 line-through';
+                  } else if (isYellow) {
+                    bgClass = 'bg-amber-500 text-zinc-950 border-amber-400 font-black';
+                  }
+
+                  return (
+                    <button
+                      key={char}
+                      onClick={() => handleToggleKeypadLetter(char)}
+                      className={`h-8 rounded-lg text-xs font-bold border transition-all active:scale-90 flex items-center justify-center ${bgClass}`}
+                      title={`${char}: ${isGray ? 'Gray (Excluded)' : isYellow ? 'Yellow (Present)' : 'Available'}`}
+                    >
+                      {char}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
-            {/* Candidate List Display */}
-            <div className="border-t border-zinc-100 dark:border-zinc-800 pt-5 mt-2">
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-xs font-black text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
-                  Candidate Words ({solverCandidates.length})
+            {/* Candidate Words Section */}
+            <div className="border-t border-zinc-100 dark:border-zinc-800 pt-4 space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-xs font-black text-zinc-900 dark:text-zinc-100 uppercase tracking-wider">
+                  Matching Words ({solverCandidates.length})
                 </span>
+                {solverCandidates.length > 0 && (
+                  <span className="text-[10px] font-bold text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
+                    High probability
+                  </span>
+                )}
               </div>
-              <div className="max-h-[180px] overflow-y-auto pr-1">
+
+              <div className="max-h-[160px] overflow-y-auto pr-1">
                 {solverCandidates.length > 0 ? (
                   <div className="flex flex-wrap gap-2">
                     {solverCandidates.map((cand) => (
                       <button
                         key={cand}
                         onClick={() => handleCopyWord(cand)}
-                        className="rounded-lg bg-green-500/10 border border-green-500/30 text-green-700 dark:text-green-400 hover:bg-green-500/20 hover:border-green-500/50 px-3 py-1.5 text-xs font-black transition-all active:scale-95 flex items-center space-x-1.5 shadow-sm"
+                        className="rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500/50 px-3.5 py-1.5 text-xs font-black transition-all active:scale-95 flex items-center space-x-1.5 shadow-sm"
                         title="Click to copy word"
                       >
                         <span>{cand}</span>
-                        {copiedWord === cand && <Check className="h-3 w-3" />}
+                        {copiedWord === cand && <Check className="h-3 w-3 text-emerald-500" />}
                       </button>
                     ))}
                   </div>
                 ) : (
-                  <div className="py-8 text-center">
-                    <p className="text-xs text-zinc-400 dark:text-zinc-500 italic">
-                      No matching WODL words found. Adjust criteria.
+                  <div className="py-6 text-center rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800">
+                    <p className="text-xs text-zinc-400 italic">
+                      No matching WODL words found. Adjust your letter criteria.
                     </p>
                   </div>
                 )}
@@ -696,9 +882,24 @@ export const BinanceWodl: React.FC = () => {
       <Modal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
-        title="Add Custom Weekly WODL Words"
+        title="Add Custom Weekly WODL Theme"
       >
         <form onSubmit={handleAddThemeSubmit} className="space-y-4">
+          <div className="flex justify-between items-center bg-amber-500/10 p-3 rounded-2xl border border-amber-500/20 mb-2">
+            <span className="text-xs font-bold text-amber-600 dark:text-amber-400">
+              Need sample data to test?
+            </span>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={handlePreFillSample}
+              className="text-xs font-bold text-amber-500 border-amber-500/30 hover:bg-amber-500/10"
+            >
+              <Wand2 className="h-3.5 w-3.5 mr-1" /> Auto-fill Sample
+            </Button>
+          </div>
+
           <div>
             <label className="block text-xs font-bold text-zinc-700 dark:text-zinc-300 mb-1">
               Theme / Event Name *
@@ -706,9 +907,10 @@ export const BinanceWodl: React.FC = () => {
             <Input
               type="text"
               required
-              placeholder="E.g. Web3 Security, Ethereum Merge"
+              placeholder="E.g. Web3 Security, Layer 2 Rollups"
               value={newThemeName}
               onChange={(e) => setNewThemeName(e.target.value)}
+              className="rounded-xl"
             />
           </div>
 
@@ -721,6 +923,7 @@ export const BinanceWodl: React.FC = () => {
               placeholder="E.g. Aug 24, 2026 - Aug 30, 2026"
               value={newWeekRange}
               onChange={(e) => setNewWeekRange(e.target.value)}
+              className="rounded-xl"
             />
           </div>
 
@@ -738,6 +941,7 @@ export const BinanceWodl: React.FC = () => {
                   placeholder="GAS, DEX, BTC"
                   value={newWords3}
                   onChange={(e) => setNewWords3(e.target.value)}
+                  className="uppercase text-xs font-bold rounded-xl"
                 />
               </div>
               <div>
@@ -749,6 +953,7 @@ export const BinanceWodl: React.FC = () => {
                   placeholder="POOL, SWAP, HODL"
                   value={newWords4}
                   onChange={(e) => setNewWords4(e.target.value)}
+                  className="uppercase text-xs font-bold rounded-xl"
                 />
               </div>
               <div>
@@ -760,6 +965,7 @@ export const BinanceWodl: React.FC = () => {
                   placeholder="STAKE, TOKEN, YIELD"
                   value={newWords5}
                   onChange={(e) => setNewWords5(e.target.value)}
+                  className="uppercase text-xs font-bold rounded-xl"
                 />
               </div>
               <div>
@@ -771,6 +977,7 @@ export const BinanceWodl: React.FC = () => {
                   placeholder="MINING, SECURE, WALLET"
                   value={newWords6}
                   onChange={(e) => setNewWords6(e.target.value)}
+                  className="uppercase text-xs font-bold rounded-xl"
                 />
               </div>
               <div>
@@ -782,6 +989,7 @@ export const BinanceWodl: React.FC = () => {
                   placeholder="NETWORK, COMPACT, LENDING"
                   value={newWords7}
                   onChange={(e) => setNewWords7(e.target.value)}
+                  className="uppercase text-xs font-bold rounded-xl"
                 />
               </div>
               <div>
@@ -793,16 +1001,26 @@ export const BinanceWodl: React.FC = () => {
                   placeholder="CONTRACT, SECURITY, AUDITING"
                   value={newWords8}
                   onChange={(e) => setNewWords8(e.target.value)}
+                  className="uppercase text-xs font-bold rounded-xl"
                 />
               </div>
             </div>
           </div>
 
           <div className="flex justify-end space-x-2 pt-4 border-t border-zinc-100 dark:border-zinc-800">
-            <Button type="button" variant="outline" onClick={() => setIsAddModalOpen(false)}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsAddModalOpen(false)}
+              className="rounded-xl font-bold"
+            >
               Cancel
             </Button>
-            <Button type="submit" variant="primary" className="bg-amber-500 text-zinc-950 hover:bg-amber-400 shadow-md">
+            <Button
+              type="submit"
+              variant="primary"
+              className="bg-amber-500 text-zinc-950 hover:bg-amber-400 font-black shadow-md rounded-xl"
+            >
               Save Theme
             </Button>
           </div>

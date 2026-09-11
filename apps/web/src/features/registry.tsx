@@ -8,6 +8,7 @@ import { MarkdownPreview } from './text-tools/markdown-preview/tool-component';
 import { WordCounter } from './text-tools/word-counter/tool-component';
 import { ColorPicker } from './color-tools/color-picker/tool-component';
 import { BinanceWodl } from './crypto-tools/binance-wodl/tool-component';
+import { RandomizerWheel } from './text-tools/randomizer-wheel/tool-component';
 
 export interface ToolRegistryItem {
   component: React.ReactNode;
@@ -176,6 +177,31 @@ export const toolsRegistry: Record<string, ToolRegistryItem> = {
         { name: 'Select Weekly Theme', text: 'Select a theme from the left pane to check pre-loaded or custom weekly words.' },
         { name: 'Input Current Clues', text: 'In the right sidebar solver, select the word length and fill in Green letters for correct positions, Yellow for present, and Gray for absent letters.' },
         { name: 'Copy Candidates', text: 'Click any generated candidate word to copy it instantly and test it in your game.' },
+      ],
+    },
+  },
+  'randomizer-wheel': {
+    component: <RandomizerWheel />,
+    faqs: [
+      {
+        question: 'How does the Randomizer Wheel select a winner?',
+        answer: 'The wheel uses physics-based deceleration curves and cryptographic random target generation to pick a non-biased winning segment when spun.',
+      },
+      {
+        question: 'Can I add custom choices and presets?',
+        answer: 'Yes! You can type options one by one, paste a list of items into the bulk input box, or choose from pre-built presets like Yes/No, Dice, or Lunch Options.',
+      },
+      {
+        question: 'Does the wheel play sounds?',
+        answer: 'Yes. Realistic tick sounds and victory fanfares are generated live using Web Audio API synthesis. You can toggle audio on or off anytime using the sound button.',
+      },
+    ],
+    guide: {
+      title: 'How to use Randomizer Wheel',
+      steps: [
+        { name: 'Add Choices', text: 'Input your list of options into the bulk text editor or quick input form.' },
+        { name: 'Select Theme & Sound', text: 'Pick your preferred color palette (Rainbow, Neon, Binance, etc.) and toggle audio.' },
+        { name: 'Spin & Celebrate', text: 'Click "SPIN THE WHEEL" or tap the canvas to launch the spin animation and reveal the winner!' },
       ],
     },
   },

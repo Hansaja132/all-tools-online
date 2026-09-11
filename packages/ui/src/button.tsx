@@ -14,18 +14,18 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={disabled || isLoading}
         className={cn(
-          'inline-flex items-center justify-center rounded-lg font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]',
+          'inline-flex items-center justify-center rounded-xl font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]',
           {
-            'bg-violet-600 text-white hover:bg-violet-700 shadow-md focus-visible:ring-violet-500': variant === 'primary',
-            'bg-zinc-800 text-white hover:bg-zinc-700 dark:bg-zinc-200 dark:text-zinc-900 dark:hover:bg-zinc-300 focus-visible:ring-zinc-500': variant === 'secondary',
-            'border border-zinc-300 bg-transparent text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800': variant === 'outline',
-            'bg-transparent text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800': variant === 'ghost',
-            'bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-500': variant === 'danger',
+            'bg-violet-600 text-white hover:bg-violet-700 dark:bg-violet-600 dark:hover:bg-violet-500 shadow-md focus-visible:ring-violet-500': variant === 'primary',
+            'bg-zinc-100 text-zinc-900 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700 focus-visible:ring-zinc-500': variant === 'secondary',
+            'border border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 shadow-sm': variant === 'outline',
+            'bg-transparent text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100': variant === 'ghost',
+            'bg-red-600 text-white hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-500 focus-visible:ring-red-500 shadow-md': variant === 'danger',
           },
           {
-            'h-9 px-3 text-sm': size === 'sm',
-            'h-11 px-4 text-base': size === 'md',
-            'h-12 px-6 text-lg': size === 'lg',
+            'h-9 px-3.5 text-xs': size === 'sm',
+            'h-11 px-4 text-sm': size === 'md',
+            'h-12 px-6 text-base': size === 'lg',
             'h-10 w-10 p-0': size === 'icon',
           },
           className
