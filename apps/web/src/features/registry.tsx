@@ -10,6 +10,13 @@ import { ColorPicker } from './color-tools/color-picker/tool-component';
 import { BinanceWodl } from './crypto-tools/binance-wodl/tool-component';
 import { RandomizerWheel } from './text-tools/randomizer-wheel/tool-component';
 
+import { JWTDecoder } from './developer-tools/jwt-decoder/tool-component';
+import { CaseConverter } from './text-tools/case-converter/tool-component';
+import { LoremGenerator } from './text-tools/lorem-generator/tool-component';
+import { SlugGenerator } from './text-tools/slug-generator/tool-component';
+import { HTMLEntityTool } from './text-tools/html-entity/tool-component';
+import { FocusTimer } from './study-tools/focus-timer/tool-component';
+
 export interface ToolRegistryItem {
   component: React.ReactNode;
   faqs: { question: string; answer: string }[];
@@ -202,6 +209,120 @@ export const toolsRegistry: Record<string, ToolRegistryItem> = {
         { name: 'Add Choices', text: 'Input your list of options into the bulk text editor or quick input form.' },
         { name: 'Select Theme & Sound', text: 'Pick your preferred color palette (Rainbow, Neon, Binance, etc.) and toggle audio.' },
         { name: 'Spin & Celebrate', text: 'Click "SPIN THE WHEEL" or tap the canvas to launch the spin animation and reveal the winner!' },
+      ],
+    },
+  },
+  'jwt-decoder': {
+    component: <JWTDecoder />,
+    faqs: [
+      {
+        question: 'What is a JWT Decoder?',
+        answer: 'A JWT Decoder decodes JSON Web Tokens into their human-readable Header, Payload, and Signature components without transmitting token data to any external server.',
+      },
+      {
+        question: 'How does the expiration check work?',
+        answer: 'The tool reads the exp claim in the decoded payload and compares it against your local system clock to determine if the token is valid or expired.',
+      },
+    ],
+    guide: {
+      title: 'How to decode a JWT',
+      steps: [
+        { name: 'Paste Token', text: 'Paste your encoded JWT string (ey...) into the top input container.' },
+        { name: 'Inspect Header & Payload', text: 'View the parsed JSON header algorithm and payload user claims in formatted code boxes.' },
+        { name: 'Check Validity', text: 'Review the expiration badge to check whether the token is currently valid or expired.' },
+      ],
+    },
+  },
+  'case-converter': {
+    component: <CaseConverter />,
+    faqs: [
+      {
+        question: 'Which text cases are supported?',
+        answer: 'We support camelCase, snake_case, kebab-case, PascalCase, CONSTANT_CASE, UPPERCASE, lowercase, Title Case, and dot.case.',
+      },
+    ],
+    guide: {
+      title: 'How to convert text cases',
+      steps: [
+        { name: 'Type or Paste Text', text: 'Input your raw string in the text editor.' },
+        { name: 'Select Converted Case', text: 'Browse the live conversion grid for your desired naming convention.' },
+        { name: 'Copy Result', text: 'Click the copy button on any case box to copy it to your clipboard.' },
+      ],
+    },
+  },
+  'lorem-generator': {
+    component: <LoremGenerator />,
+    faqs: [
+      {
+        question: 'What is Lorem Ipsum?',
+        answer: 'Lorem Ipsum is standard dummy placeholder text used in typography, wireframes, and graphic design layout demonstrations.',
+      },
+    ],
+    guide: {
+      title: 'How to generate Lorem Ipsum text',
+      steps: [
+        { name: 'Select Type & Quantity', text: 'Choose paragraphs, sentences, or words and set the desired quantity.' },
+        { name: 'Configure Options', text: 'Toggle HTML paragraph tags wrapping or starting with standard Lorem text.' },
+        { name: 'Copy or Download', text: 'Click Copy to clipboard or Download TXT to save the placeholder file.' },
+      ],
+    },
+  },
+  'slug-generator': {
+    component: <SlugGenerator />,
+    faqs: [
+      {
+        question: 'What makes a URL slug SEO-friendly?',
+        answer: 'SEO-friendly URL slugs are lowercase, hyphen-separated, strip special characters/accents, and optionally remove non-essential stop words.',
+      },
+    ],
+    guide: {
+      title: 'How to generate a URL slug',
+      steps: [
+        { name: 'Enter Title', text: 'Type or paste your article title or heading.' },
+        { name: 'Customize Settings', text: 'Choose your separator (- or _) and toggle stop word removal.' },
+        { name: 'Copy Slug', text: 'Copy the computed slug directly into your CMS or web application.' },
+      ],
+    },
+  },
+  'html-entity': {
+    component: <HTMLEntityTool />,
+    faqs: [
+      {
+        question: 'Why encode HTML entities?',
+        answer: 'Encoding special HTML characters prevents Cross-Site Scripting (XSS) vulnerabilities and ensures symbols like < and > render correctly on web pages.',
+      },
+    ],
+    guide: {
+      title: 'How to encode/decode HTML entities',
+      steps: [
+        { name: 'Select Mode', text: 'Choose "Encode" to convert plain text, or "Decode" to translate entity codes back.' },
+        { name: 'Paste Text', text: 'Enter your string in the input area.' },
+        { name: 'Extract Output', text: 'Copy the computed result or reference common entity codes in the table.' },
+      ],
+    },
+  },
+  'focus-timer': {
+    component: <FocusTimer />,
+    faqs: [
+      {
+        question: 'What is the Focus Timer (Pomodoro Technique)?',
+        answer: 'The Focus Timer uses the Pomodoro Technique—breaking study or work sessions into focused intervals (typically 25 minutes) separated by short breaks (5 minutes) to maximize concentration and prevent burnout.',
+      },
+      {
+        question: 'How do I change the wallpaper background?',
+        answer: 'Click the "Wallpaper" or "Settings" button in the bottom floating toolbar to open the bottom settings panel. Browse high-definition lo-fi, nature, space, and gradient wallpapers or paste a custom image URL.',
+      },
+      {
+        question: 'Are my timer settings and tasks saved?',
+        answer: 'Yes! All wallpaper preferences, custom timer durations, volume choices, and task lists are saved locally in your browser (localStorage) automatically.',
+      },
+    ],
+    guide: {
+      title: 'How to use the Focus Timer',
+      steps: [
+        { name: 'Select Mode', text: 'Choose Pomodoro (25m), Short Break (5m), or Long Break (15m) at the top of the timer.' },
+        { name: 'Customize Wallpaper & Settings', text: 'Click the bottom Settings bar to change wallpapers, adjust background darkness overlay, or tweak alert sound effects.' },
+        { name: 'Start Session', text: 'Click START to initiate the countdown. Use Fullscreen mode for distraction-free studying.' },
       ],
     },
   },

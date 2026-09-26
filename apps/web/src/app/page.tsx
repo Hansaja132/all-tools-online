@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Search, Code2, Image, FileText, Palette, Star, ArrowRight, Heart, Coins } from 'lucide-react';
+import { Search, Code2, Image, FileText, Palette, Star, ArrowRight, Heart, Coins, GraduationCap } from 'lucide-react';
 import { siteConfig } from '@tools-website/config';
 import { Card, Button, SearchInput } from '@tools-website/ui';
 import { useSearchStore } from '../lib/store/search-store';
@@ -26,6 +26,8 @@ export default function HomePage() {
         return <Palette className="h-6 w-6 text-pink-500" />;
       case 'crypto-tools':
         return <Coins className="h-6 w-6 text-amber-500 animate-pulse" />;
+      case 'study-tools':
+        return <GraduationCap className="h-6 w-6 text-teal-400" />;
       default:
         return <Code2 className="h-6 w-6 text-zinc-500" />;
     }

@@ -4,7 +4,7 @@ import * as React from 'react';
 import { notFound } from 'next/navigation';
 import { siteConfig } from '@tools-website/config';
 import { Card, Button, Breadcrumb } from '@tools-website/ui';
-import { Code2, Image, FileText, Palette, ArrowRight, Heart, Coins } from 'lucide-react';
+import { Code2, Image, FileText, Palette, ArrowRight, Heart, Coins, GraduationCap } from 'lucide-react';
 import { useFavoritesStore } from '../../lib/store/favorites-store';
 import { generateBreadcrumbJsonLd } from '@tools-website/utils';
 
@@ -34,6 +34,8 @@ export default function CategoryPage({ params }: { params: Promise<{ category: s
         return <Palette className="h-6 w-6 text-pink-500" />;
       case 'crypto-tools':
         return <Coins className="h-6 w-6 text-amber-500" />;
+      case 'study-tools':
+        return <GraduationCap className="h-6 w-6 text-teal-400" />;
       default:
         return <Code2 className="h-6 w-6 text-zinc-500" />;
     }

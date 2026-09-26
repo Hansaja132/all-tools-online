@@ -75,6 +75,13 @@ export const siteConfig = {
       description: 'Track, search, and manage weekly Binance WODL words, calculators, and blockchain helpers.',
       icon: 'Coins',
     },
+    {
+      id: 'study-tools',
+      name: 'Study Tools',
+      slug: 'study-tools',
+      description: 'Productivity boosters, study session timers, and focus tools for students and professionals.',
+      icon: 'GraduationCap',
+    },
   ],
   tools: [
     {
@@ -146,6 +153,48 @@ export const siteConfig = {
       category: 'text-tools',
       description: 'Interactive spin-the-wheel random picker with customizable entries, color palettes, sound effects, presets, and winner celebrations.',
       keywords: ['randomizer wheel', 'spin wheel', 'wheel of names', 'random picker', 'picker wheel', 'decision maker'],
+    },
+    {
+      name: 'JWT Decoder & Inspector',
+      slug: 'jwt-decoder',
+      category: 'developer-tools',
+      description: 'Decode JSON Web Tokens (Header, Payload, Signature), inspect claims, check expiration status, and format payload client-side.',
+      keywords: ['jwt', 'jwt decoder', 'json web token', 'decode jwt', 'jwt parser', 'jwt expiry', 'token inspector'],
+    },
+    {
+      name: 'Case Converter',
+      slug: 'case-converter',
+      category: 'text-tools',
+      description: 'Convert text between camelCase, snake_case, kebab-case, CONSTANT_CASE, Title Case, PascalCase, and UPPERCASE instantly.',
+      keywords: ['case converter', 'camelcase', 'snake case', 'kebab case', 'pascalcase', 'title case', 'text converter'],
+    },
+    {
+      name: 'Lorem Ipsum Generator',
+      slug: 'lorem-generator',
+      category: 'text-tools',
+      description: 'Generate customizable placeholder text by paragraphs, sentences, or words with optional HTML paragraph tags and download options.',
+      keywords: ['lorem ipsum', 'placeholder text', 'text generator', 'dummy text', 'lorem generator', 'ipsum maker'],
+    },
+    {
+      name: 'URL Slug Generator',
+      slug: 'slug-generator',
+      category: 'text-tools',
+      description: 'Convert article titles or sentences into clean, SEO-friendly web URL slugs with custom separators and accent stripping.',
+      keywords: ['url slug', 'slug generator', 'seo slug', 'clean url maker', 'title to slug', 'permalink generator'],
+    },
+    {
+      name: 'HTML Entity Encoder / Decoder',
+      slug: 'html-entity',
+      category: 'text-tools',
+      description: 'Encode plain text into HTML entities (&lt;, &gt;, &amp;) or decode entity strings back to readable characters.',
+      keywords: ['html entity', 'html encoder', 'html decoder', 'encode html', 'escape html', 'html special characters'],
+    },
+    {
+      name: 'Focus Timer',
+      slug: 'focus-timer',
+      category: 'study-tools',
+      description: 'A customizable Pomodoro and focus timer with ambient wallpaper backgrounds, sound alerts, task lists, and customizable bottom settings.',
+      keywords: ['focus timer', 'pomodoro', 'study timer', 'pomodoro technique', 'study wallpaper', 'focus mode', 'productivity timer'],
     },
   ],
 };
