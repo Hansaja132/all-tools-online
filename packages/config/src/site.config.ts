@@ -1,7 +1,18 @@
+const getValidUrl = (url?: string, defaultUrl = 'http://localhost:3000') => {
+  if (!url) {
+    if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+    return defaultUrl;
+  }
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url;
+  }
+  return `https://${url}`;
+};
+
 export const siteConfig = {
   name: 'MultiTools',
   description: 'Free online client-side and backend developer, image, and text tools to speed up your workflow.',
-  url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+  url: getValidUrl(process.env.NEXT_PUBLIC_APP_URL, 'http://localhost:3000'),
   apiUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1',
   ogImage: 'https://multi-tools.com/og.png',
   author: 'MultiTools Inc',

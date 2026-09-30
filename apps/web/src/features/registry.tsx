@@ -18,14 +18,14 @@ import { HTMLEntityTool } from './text-tools/html-entity/tool-component';
 import { FocusTimer } from './study-tools/focus-timer/tool-component';
 
 export interface ToolRegistryItem {
-  component: React.ReactNode;
+  component: React.ComponentType;
   faqs: { question: string; answer: string }[];
   guide: { title: string; steps: { name: string; text: string }[] };
 }
 
 export const toolsRegistry: Record<string, ToolRegistryItem> = {
   'json-formatter': {
-    component: <JSONFormatter />,
+    component: JSONFormatter,
     faqs: [
       {
         question: 'What is a JSON Formatter?',
@@ -46,7 +46,7 @@ export const toolsRegistry: Record<string, ToolRegistryItem> = {
     },
   },
   'uuid-generator': {
-    component: <UUIDGenerator />,
+    component: UUIDGenerator,
     faqs: [
       {
         question: 'What is a UUID?',
@@ -63,7 +63,7 @@ export const toolsRegistry: Record<string, ToolRegistryItem> = {
     },
   },
   'password-generator': {
-    component: <PasswordGenerator />,
+    component: PasswordGenerator,
     faqs: [
       {
         question: 'Is this generator secure?',
@@ -80,7 +80,7 @@ export const toolsRegistry: Record<string, ToolRegistryItem> = {
     },
   },
   'qr-generator': {
-    component: <QRGenerator />,
+    component: QRGenerator,
     faqs: [
       {
         question: 'Can I link to any URL?',
@@ -97,7 +97,7 @@ export const toolsRegistry: Record<string, ToolRegistryItem> = {
     },
   },
   'base64': {
-    component: <Base64Tool />,
+    component: Base64Tool,
     faqs: [
       {
         question: 'What is Base64 representation?',
@@ -114,7 +114,7 @@ export const toolsRegistry: Record<string, ToolRegistryItem> = {
     },
   },
   'markdown-preview': {
-    component: <MarkdownPreview />,
+    component: MarkdownPreview,
     faqs: [
       {
         question: 'What markdown elements are supported?',
@@ -130,7 +130,7 @@ export const toolsRegistry: Record<string, ToolRegistryItem> = {
     },
   },
   'word-counter': {
-    component: <WordCounter />,
+    component: WordCounter,
     faqs: [
       {
         question: 'How is reading time computed?',
@@ -146,7 +146,7 @@ export const toolsRegistry: Record<string, ToolRegistryItem> = {
     },
   },
   'color-picker': {
-    component: <ColorPicker />,
+    component: ColorPicker,
     faqs: [
       {
         question: 'What formats can I export?',
@@ -163,7 +163,7 @@ export const toolsRegistry: Record<string, ToolRegistryItem> = {
     },
   },
   'binance-wodl': {
-    component: <BinanceWodl />,
+    component: BinanceWodl,
     faqs: [
       {
         question: 'What is Binance WODL?',
@@ -188,7 +188,7 @@ export const toolsRegistry: Record<string, ToolRegistryItem> = {
     },
   },
   'randomizer-wheel': {
-    component: <RandomizerWheel />,
+    component: RandomizerWheel,
     faqs: [
       {
         question: 'How does the Randomizer Wheel select a winner?',
@@ -213,7 +213,7 @@ export const toolsRegistry: Record<string, ToolRegistryItem> = {
     },
   },
   'jwt-decoder': {
-    component: <JWTDecoder />,
+    component: JWTDecoder,
     faqs: [
       {
         question: 'What is a JWT Decoder?',
@@ -234,7 +234,7 @@ export const toolsRegistry: Record<string, ToolRegistryItem> = {
     },
   },
   'case-converter': {
-    component: <CaseConverter />,
+    component: CaseConverter,
     faqs: [
       {
         question: 'Which text cases are supported?',
@@ -251,7 +251,7 @@ export const toolsRegistry: Record<string, ToolRegistryItem> = {
     },
   },
   'lorem-generator': {
-    component: <LoremGenerator />,
+    component: LoremGenerator,
     faqs: [
       {
         question: 'What is Lorem Ipsum?',
@@ -268,7 +268,7 @@ export const toolsRegistry: Record<string, ToolRegistryItem> = {
     },
   },
   'slug-generator': {
-    component: <SlugGenerator />,
+    component: SlugGenerator,
     faqs: [
       {
         question: 'What makes a URL slug SEO-friendly?',
@@ -285,7 +285,7 @@ export const toolsRegistry: Record<string, ToolRegistryItem> = {
     },
   },
   'html-entity': {
-    component: <HTMLEntityTool />,
+    component: HTMLEntityTool,
     faqs: [
       {
         question: 'Why encode HTML entities?',
@@ -302,7 +302,7 @@ export const toolsRegistry: Record<string, ToolRegistryItem> = {
     },
   },
   'focus-timer': {
-    component: <FocusTimer />,
+    component: FocusTimer,
     faqs: [
       {
         question: 'What is the Focus Timer (Pomodoro Technique)?',

@@ -85,11 +85,12 @@ export function CategoryView({ category, categoryTools, breadcrumbJsonLd }: Cate
               </div>
 
               <div className="mt-6">
-                <a href={`/${category.slug}/${tool.slug}`} className="w-full inline-block">
-                  <Button variant="outline" className="w-full justify-between group-hover:bg-violet-50 dark:group-hover:bg-zinc-800 transition-colors text-sm">
-                    <span>Open Tool</span>
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
+                <a
+                  href={`/${category.slug}/${tool.slug}`}
+                  className="flex w-full items-center justify-between rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-900 shadow-sm hover:bg-violet-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                >
+                  <span>Open Tool</span>
+                  <ArrowRight className="h-4 w-4" />
                 </a>
               </div>
             </Card>

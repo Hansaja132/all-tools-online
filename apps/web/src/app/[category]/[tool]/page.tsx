@@ -28,7 +28,7 @@ export default async function ToolPage({ params }: { params: Promise<{ category:
     notFound();
   }
 
-  const { component, faqs, guide } = toolRegistryItem;
+  const { component: ToolComponent, faqs, guide } = toolRegistryItem;
 
   // Filter related tools (in same category)
   const relatedTools = (siteConfig as any).tools.filter(
@@ -59,13 +59,14 @@ export default async function ToolPage({ params }: { params: Promise<{ category:
     <ToolView
       category={category}
       toolMeta={toolMeta}
-      component={component}
       faqs={faqs}
       guide={guide}
       relatedTools={relatedTools}
       breadcrumbJson={breadcrumbJson}
       faqJson={faqJson}
       howToJson={howToJson}
-    />
+    >
+      <ToolComponent />
+    </ToolView>
   );
 }

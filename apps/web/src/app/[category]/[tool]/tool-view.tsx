@@ -14,7 +14,7 @@ interface ToolViewProps {
     description: string;
     category: string;
   };
-  component: React.ReactNode;
+  children: React.ReactNode;
   faqs: { question: string; answer: string }[];
   guide: { title: string; steps: { name: string; text: string }[] };
   relatedTools: any[];
@@ -26,7 +26,7 @@ interface ToolViewProps {
 export function ToolView({
   category,
   toolMeta,
-  component,
+  children,
   faqs,
   guide,
   relatedTools,
@@ -72,7 +72,7 @@ export function ToolView({
 
       {/* Interactive Tool Container */}
       <div className="mt-8 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/40">
-        {component}
+        {children}
       </div>
 
       {/* Guide & Documentation */}
@@ -133,10 +133,11 @@ export function ToolView({
                   <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2">{tool.description}</p>
                 </div>
                 <div className="mt-4">
-                  <a href={`/${category.slug}/${tool.slug}`} className="w-full inline-block">
-                    <Button variant="outline" size="sm" className="w-full text-xs">
-                      Open Tool
-                    </Button>
+                  <a
+                    href={`/${category.slug}/${tool.slug}`}
+                    className="inline-flex w-full items-center justify-center rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-xs font-medium text-zinc-900 shadow-sm hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                  >
+                    Open Tool
                   </a>
                 </div>
               </Card>
