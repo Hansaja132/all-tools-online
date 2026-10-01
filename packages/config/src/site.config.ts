@@ -28,6 +28,9 @@ export const siteConfig = {
     titleTemplate: '%s | MultiTools',
     defaultTitle: 'MultiTools - Free Online Multi-Tools Website',
     twitterCard: 'summary_large_image',
+    googleSiteVerification:
+      process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ||
+      'ufoJM2dgEgRecmQlmZYdkHJORg7wko5nQTkyuC2qAtM',
     openGraph: {
       type: 'website',
       locale: 'en_US',
