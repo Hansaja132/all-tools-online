@@ -58,3 +58,31 @@ export function generateHowToJsonLd(name: string, description: string, steps: Ho
     })),
   };
 }
+
+export interface WebApplicationSchemaOptions {
+  name: string;
+  description: string;
+  url: string;
+  applicationCategory?: string;
+  operatingSystem?: string;
+  browserRequirements?: string;
+}
+
+export function generateWebApplicationJsonLd(options: WebApplicationSchemaOptions) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': options.name,
+    'description': options.description,
+    'url': options.url,
+    'applicationCategory': options.applicationCategory || 'DeveloperApplication',
+    'operatingSystem': options.operatingSystem || 'All',
+    'browserRequirements': options.browserRequirements || 'Requires JavaScript. Requires HTML5.',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'USD',
+    },
+  };
+}
+

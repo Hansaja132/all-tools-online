@@ -1,10 +1,11 @@
+import type { Metadata } from 'next';
 import './globals.css';
 import * as React from 'react';
 import { siteConfig } from '@tools-website/config';
 import { ClientProviders } from '../components/client-providers';
 import { Navbar } from '../components/navbar';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: {
     default: siteConfig.seo.defaultTitle,
     template: siteConfig.seo.titleTemplate,
@@ -23,6 +24,9 @@ export const metadata = {
     siteName: siteConfig.seo.openGraph.siteName,
     locale: siteConfig.seo.openGraph.locale,
     type: 'website',
+  },
+  verification: {
+    google: siteConfig.seo.googleSiteVerification,
   },
 };
 
