@@ -16,6 +16,7 @@ export default function robots(): MetadataRoute.Robots {
           '/crypto-tools/',
           '/color-tools/',
           '/image-tools/',
+          '/pdf-tools/',
           '/api/og',
         ],
         disallow: ['/admin/', '/api/', '/profile/'],
