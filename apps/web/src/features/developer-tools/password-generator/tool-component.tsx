@@ -37,12 +37,21 @@ export const PasswordGenerator: React.FC = () => {
     if (useSymbols) chars += '!@#$%^&*()_+~`|}{[]:;?><,./-=';
 
     let generated = '';
-    for (let i = 0; i < length; i++) {
-      const idx = Math.floor(Math.random() * chars.length);
-      generated += chars.charAt(idx);
+    if (typeof window !== 'undefined' && window.crypto && window.crypto.getRandomValues) {
+      const randomValues = new Uint32Array(length);
+      window.crypto.getRandomValues(randomValues);
+      for (let i = 0; i < length; i++) {
+        generated += chars.charAt(randomValues[i] % chars.length);
+      }
+    } else {
+      for (let i = 0; i < length; i++) {
+        const idx = Math.floor(Math.random() * chars.length);
+        generated += chars.charAt(idx);
+      }
     }
     setPassword(generated);
     calculateStrength(generated);
+
   };
 
   React.useEffect(() => {
