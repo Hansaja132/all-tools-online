@@ -14,12 +14,18 @@ export const Navbar: React.FC = () => {
   const { query, setQuery } = useSearchStore();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const categoryItems = siteConfig.categories.map((c) => ({
     label: c.name,
     href: `/${c.slug}`,
   }));
 
-  const userDropdownItems = isAuthenticated
+  const userDropdownItems = (mounted && isAuthenticated)
     ? [
         { label: 'My Profile', href: '/profile' },
         {
@@ -35,10 +41,7 @@ export const Navbar: React.FC = () => {
           icon: <LogOut className="h-4 w-4" />,
         },
       ].filter(item => item.label !== '')
-    : [
-        { label: 'Login', href: '/login' },
-        { label: 'Register', href: '/register' },
-      ];
+    : [];
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-zinc-200 bg-white/80 backdrop-blur-md dark:border-zinc-800 dark:bg-zinc-950/80">
@@ -92,19 +95,21 @@ export const Navbar: React.FC = () => {
             <ThemeToggle theme={theme} onChange={setTheme} />
           </div>
 
-          {/* User profile dropdown */}
-          <Dropdown
-            trigger={
-              <Button variant="ghost" size="icon" className="rounded-full">
-                {user?.avatar ? (
-                  <img src={user.avatar} alt="Avatar" className="h-7 w-7 rounded-full object-cover" />
-                ) : (
-                  <User className="h-5 w-5 text-zinc-700 dark:text-zinc-300" />
-                )}
-              </Button>
-            }
-            items={userDropdownItems}
-          />
+          {/* User profile dropdown - only visible when authenticated */}
+          {mounted && isAuthenticated && (
+            <Dropdown
+              trigger={
+                <Button variant="ghost" size="icon" className="rounded-full">
+                  {user?.avatar ? (
+                    <img src={user.avatar} alt="Avatar" className="h-7 w-7 rounded-full object-cover" />
+                  ) : (
+                    <User className="h-5 w-5 text-zinc-700 dark:text-zinc-300" />
+                  )}
+                </Button>
+              }
+              items={userDropdownItems}
+            />
+          )}
 
           {/* Mobile hamburger menu */}
           <button
