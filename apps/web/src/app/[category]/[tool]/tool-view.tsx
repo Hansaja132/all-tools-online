@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Breadcrumb, Card } from '@tools-website/ui';
 import { CheckCircle2, ChevronDown, ChevronUp, Sparkles, ArrowRight } from 'lucide-react';
 import type { ToolSeoData } from '../../../lib/seo/tool-seo';
+import { AdBanner } from '../../../components/ads';
 
 interface ToolViewProps {
   category: {
@@ -82,8 +83,22 @@ export function ToolView({
         {children}
       </div>
 
+      {/* ========================================================================= */}
+      {/* AD SLOT: POST-TOOL PRIMARY BANNER (HIGHEST VIEWABILITY & HIGHEST CPM)     */}
+      {/* Recommended Format: 728x90 Leaderboard (Desktop) / 300x250 Rectangle     */}
+      {/* Suitable for: Adsterra Banner or Monetag Banner                           */}
+      {/* UX Guarantee: Outside the interactive workspace; zero interference with    */}
+      {/* file uploads, sliders, or action buttons. Pre-allocated height avoids CLS. */}
+      {/* ========================================================================= */}
+      <div className="mt-8">
+        <AdBanner
+          slotId="tool-view-post-tool-primary"
+          format="leaderboard"
+        />
+      </div>
+
       {/* How to Use Section */}
-      <section className="mt-16" aria-labelledby="how-to-heading">
+      <section className="mt-12" aria-labelledby="how-to-heading">
         <div className="rounded-2xl border border-zinc-200 bg-white p-6 sm:p-8 dark:border-zinc-800 dark:bg-zinc-900/50">
           <h2
             id="how-to-heading"
@@ -140,8 +155,21 @@ export function ToolView({
         </div>
       </section>
 
+      {/* ========================================================================= */}
+      {/* AD SLOT: IN-CONTENT EDITORIAL BANNER                                      */}
+      {/* Recommended Format: Responsive Horizontal Banner / Adsterra Native Widget */}
+      {/* Suitable for: Monetag Banner or Adsterra Native 4:1 Widget                */}
+      {/* UX Guarantee: Placed between content sections with clean margins           */}
+      {/* ========================================================================= */}
+      <div className="mt-12">
+        <AdBanner
+          slotId="tool-view-in-content"
+          format="horizontal"
+        />
+      </div>
+
       {/* Explanatory Guide: What is [Tool]? */}
-      <section className="mt-16" aria-labelledby="what-is-heading">
+      <section className="mt-12" aria-labelledby="what-is-heading">
         <div className="rounded-2xl border border-zinc-200 bg-white p-6 sm:p-8 dark:border-zinc-800 dark:bg-zinc-900/50">
           <h2
             id="what-is-heading"
@@ -198,6 +226,18 @@ export function ToolView({
           </div>
         </div>
       </section>
+
+      {/* ========================================================================= */}
+      {/* AD SLOT: PRE-RELATED TOOLS BANNER                                         */}
+      {/* Recommended Format: 728x90 Leaderboard / 300x250 Rectangle                */}
+      {/* Suitable for: Adsterra Banner or Monetag Banner                           */}
+      {/* ========================================================================= */}
+      <div className="mt-12">
+        <AdBanner
+          slotId="tool-view-pre-related"
+          format="leaderboard"
+        />
+      </div>
 
       {/* Related Tools Internal Linking */}
       {relatedTools.length > 0 && (

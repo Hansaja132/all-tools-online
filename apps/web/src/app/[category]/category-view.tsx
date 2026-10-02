@@ -22,6 +22,7 @@ import {
   ChevronUp,
 } from 'lucide-react';
 import { useFavoritesStore } from '../../lib/store/favorites-store';
+import { AdBanner, AdNativeCard } from '../../components/ads';
 
 interface CategoryViewProps {
   category: {
@@ -196,34 +197,55 @@ export function CategoryView({ category, categoryTools, breadcrumbJsonLd }: Cate
           </div>
         </header>
 
+        {/* ========================================================================= */}
+        {/* AD SLOT: PDF CATEGORY TOP LEADERBOARD                                     */}
+        {/* Recommended Format: 728x90 Leaderboard / 320x50 Mobile                    */}
+        {/* Suitable for: Adsterra Banner or Monetag Banner                           */}
+        {/* UX Safety: Placed directly below the hero card with zero CLS layout shift */}
+        {/* ========================================================================= */}
+        <div className="mt-8">
+          <AdBanner slotId="category-pdf-top" format="leaderboard" />
+        </div>
+
         {/* Categorized PDF Tool Sections */}
         {searchFilter.trim() === '' ? (
           <div className="mt-12 space-y-12">
-            {pdfSubcategories.map((subcat) => {
+            {pdfSubcategories.map((subcat, subcatIdx) => {
               const toolsInSubcat = categoryTools.filter((t) =>
                 subcat.toolSlugs.includes(t.slug)
               );
 
               return (
-                <section key={subcat.id} aria-labelledby={`subcat-${subcat.id}`}>
-                  <div className="flex items-center space-x-3 border-b border-zinc-200 pb-3 dark:border-zinc-800">
-                    <div className="rounded-lg bg-zinc-100 p-2 dark:bg-zinc-800">
-                      {subcat.icon}
+                <React.Fragment key={subcat.id}>
+                  {/* ========================================================================= */}
+                  {/* AD SLOT: MID-SUBCATEGORY IN-CONTENT BANNER                                */}
+                  {/* Breaks up long catalog list naturally; high scroll engagement             */}
+                  {/* ========================================================================= */}
+                  {subcatIdx === 2 && (
+                    <div className="my-10">
+                      <AdBanner slotId="category-pdf-mid-subcat" format="leaderboard" />
                     </div>
-                    <div>
-                      <h2
-                        id={`subcat-${subcat.id}`}
-                        className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white"
-                      >
-                        {subcat.title}
-                      </h2>
-                      <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                        {subcat.description}
-                      </p>
-                    </div>
-                  </div>
+                  )}
 
-                  <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  <section aria-labelledby={`subcat-${subcat.id}`}>
+                    <div className="flex items-center space-x-3 border-b border-zinc-200 pb-3 dark:border-zinc-800">
+                      <div className="rounded-lg bg-zinc-100 p-2 dark:bg-zinc-800">
+                        {subcat.icon}
+                      </div>
+                      <div>
+                        <h2
+                          id={`subcat-${subcat.id}`}
+                          className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white"
+                        >
+                          {subcat.title}
+                        </h2>
+                        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                          {subcat.description}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {toolsInSubcat.map((tool: any) => {
                       const fav = isFavorite(tool.slug);
                       return (
@@ -270,21 +292,30 @@ export function CategoryView({ category, categoryTools, breadcrumbJsonLd }: Cate
                     })}
                   </div>
                 </section>
-              );
-            })}
-          </div>
-        ) : (
-          /* Filtered Results View */
-          <div className="mt-12">
-            <h2 className="text-xl font-bold text-zinc-900 dark:text-white mb-6">
-              Matching Tools ({filteredCategoryTools.length})
-            </h2>
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {filteredCategoryTools.map((tool: any) => {
-                const fav = isFavorite(tool.slug);
-                return (
+              </React.Fragment>
+            );
+          })}
+        </div>
+      ) : (
+        /* Filtered Results View */
+        <div className="mt-12">
+          <h2 className="text-xl font-bold text-zinc-900 dark:text-white mb-6">
+            Matching Tools ({filteredCategoryTools.length})
+          </h2>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {filteredCategoryTools.map((tool: any, index: number) => {
+              const fav = isFavorite(tool.slug);
+              return (
+                <React.Fragment key={tool.slug}>
+                  {index === 3 && (
+                    <AdNativeCard
+                      slotId="category-pdf-filtered-native"
+                      title="Recommended Document & Office Suite"
+                      description="Boost your workflow with fast cloud storage, electronic signatures, and PDF tools."
+                      ctaText="Learn More"
+                    />
+                  )}
                   <Card
-                    key={tool.slug}
                     hoverable
                     className="flex flex-col justify-between relative group border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 p-5 rounded-2xl"
                   >
@@ -322,13 +353,23 @@ export function CategoryView({ category, categoryTools, breadcrumbJsonLd }: Cate
                       </a>
                     </div>
                   </Card>
-                );
-              })}
-            </div>
+                </React.Fragment>
+              );
+            })}
           </div>
-        )}
+        </div>
+      )}
 
-        {/* Informational SEO Guide */}
+      {/* ========================================================================= */}
+      {/* AD SLOT: PDF CATEGORY PRE-GUIDE LEADERBOARD                               */}
+      {/* Recommended Format: 728x90 Leaderboard / Responsive Horizontal            */}
+      {/* Suitable for: Monetag Banner or Adsterra Banner                           */}
+      {/* ========================================================================= */}
+      <div className="mt-16">
+        <AdBanner slotId="category-pdf-pre-guide" format="leaderboard" />
+      </div>
+
+      {/* Informational SEO Guide */}
         <section className="mt-16 rounded-3xl border border-zinc-200 bg-white p-6 sm:p-10 dark:border-zinc-800 dark:bg-zinc-900/50">
           <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">
             Why Use Browser-Based Online PDF Tools?
@@ -406,44 +447,75 @@ export function CategoryView({ category, categoryTools, breadcrumbJsonLd }: Cate
         <p className="mt-2 text-lg text-zinc-600 dark:text-zinc-400">{category.description}</p>
       </div>
 
+      {/* ========================================================================= */}
+      {/* AD SLOT: CATEGORY TOP LEADERBOARD                                         */}
+      {/* Recommended Format: 728x90 Leaderboard (Desktop) / 320x50 (Mobile)         */}
+      {/* Suitable for: Adsterra Banner or Monetag Banner                           */}
+      {/* ========================================================================= */}
+      <div className="mt-6">
+        <AdBanner slotId={`category-${category.slug}-top`} format="leaderboard" />
+      </div>
+
       <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {categoryTools.map((tool: any) => {
+        {categoryTools.map((tool: any, index: number) => {
           const fav = isFavorite(tool.slug);
           return (
-            <Card key={tool.slug} hoverable className="flex flex-col justify-between relative group">
-              <div>
-                <div className="flex items-center justify-between">
-                  <div className="rounded-lg bg-zinc-100 p-2.5 dark:bg-zinc-800">
-                    {getCategoryIcon(category.slug)}
+            <React.Fragment key={tool.slug}>
+              {/* ========================================================================= */}
+              {/* AD SLOT: IN-FEED NATIVE SPONSORED CARD                                    */}
+              {/* Blends smoothly into the category tools grid with honest Sponsored badge  */}
+              {/* ========================================================================= */}
+              {index === 3 && (
+                <AdNativeCard
+                  slotId={`category-${category.slug}-native`}
+                  title={`Top Utilities for ${category.name}`}
+                  description="Explore complementary professional tools and services curated for your productivity."
+                  ctaText="Explore Partner"
+                />
+              )}
+
+              <Card hoverable className="flex flex-col justify-between relative group">
+                <div>
+                  <div className="flex items-center justify-between">
+                    <div className="rounded-lg bg-zinc-100 p-2.5 dark:bg-zinc-800">
+                      {getCategoryIcon(category.slug)}
+                    </div>
+                    <button
+                      onClick={() => toggleFavorite(tool.slug)}
+                      className="rounded-full p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-red-500 dark:hover:bg-zinc-800 transition-colors"
+                    >
+                      <Heart className={`h-5 w-5 ${fav ? 'fill-red-500 text-red-500' : ''}`} />
+                    </button>
                   </div>
-                  <button
-                    onClick={() => toggleFavorite(tool.slug)}
-                    className="rounded-full p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-red-500 dark:hover:bg-zinc-800 transition-colors"
-                  >
-                    <Heart className={`h-5 w-5 ${fav ? 'fill-red-500 text-red-500' : ''}`} />
-                  </button>
+
+                  <h3 className="mt-4 text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                    {tool.name}
+                  </h3>
+                  <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400 line-clamp-3">
+                    {tool.description}
+                  </p>
                 </div>
 
-                <h3 className="mt-4 text-lg font-bold text-zinc-900 dark:text-zinc-100">
-                  {tool.name}
-                </h3>
-                <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400 line-clamp-3">
-                  {tool.description}
-                </p>
-              </div>
-
-              <div className="mt-6">
-                <a
-                  href={`/${category.slug}/${tool.slug}`}
-                  className="flex w-full items-center justify-between rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-900 shadow-sm hover:bg-violet-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800 transition-colors"
-                >
-                  <span>Open Tool</span>
-                  <ArrowRight className="h-4 w-4" />
-                </a>
-              </div>
-            </Card>
+                <div className="mt-6">
+                  <a
+                    href={`/${category.slug}/${tool.slug}`}
+                    className="flex w-full items-center justify-between rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-900 shadow-sm hover:bg-violet-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                  >
+                    <span>Open Tool</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </a>
+                </div>
+              </Card>
+            </React.Fragment>
           );
         })}
+      </div>
+
+      {/* ========================================================================= */}
+      {/* AD SLOT: CATEGORY BOTTOM LEADERBOARD                                      */}
+      {/* ========================================================================= */}
+      <div className="mt-16">
+        <AdBanner slotId={`category-${category.slug}-bottom`} format="leaderboard" />
       </div>
     </div>
   );

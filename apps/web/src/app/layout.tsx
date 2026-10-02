@@ -4,6 +4,7 @@ import * as React from 'react';
 import { siteConfig } from '@tools-website/config';
 import { ClientProviders } from '../components/client-providers';
 import { Navbar } from '../components/navbar';
+import { AdGlobalScripts, AdBanner } from '../components/ads';
 
 export const metadata: Metadata = {
   title: {
@@ -62,10 +63,36 @@ export default function RootLayout({
       </head>
       <body className="flex min-h-screen flex-col bg-zinc-50 dark:bg-zinc-950 font-sans">
         <ClientProviders>
+          {/* ========================================================================= */}
+          {/* GLOBAL AD SCRIPTS (Monetag MultiTag / Adsterra Social Bar / Popunder)     */}
+          {/* Configured in apps/web/src/components/ads/ad-config.ts                    */}
+          {/* ========================================================================= */}
+          <AdGlobalScripts />
+
           <Navbar />
+
+          {/* ========================================================================= */}
+          {/* AD SLOT: GLOBAL TOP BANNER (Optional)                                     */}
+          {/* Format: 728x90 Leaderboard (Desktop) / 320x50 (Mobile)                    */}
+          {/* UX Safety: Centered beneath navbar with reserved height to avoid CLS.     */}
+          {/* ========================================================================= */}
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <AdBanner slotId="global-top-header" format="leaderboard" className="my-3" />
+          </div>
+
           <main className="flex-grow">
             {children}
           </main>
+
+          {/* ========================================================================= */}
+          {/* AD SLOT: GLOBAL ABOVE-FOOTER BANNER                                       */}
+          {/* Format: 728x90 Leaderboard / Responsive Horizontal Banner                */}
+          {/* UX Safety: High viewability when users scroll to the bottom, 0% tool risk */}
+          {/* ========================================================================= */}
+          <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+            <AdBanner slotId="global-above-footer" format="leaderboard" />
+          </div>
+
           <footer className="border-t border-zinc-200 bg-white py-8 dark:border-zinc-800 dark:bg-zinc-950 text-zinc-500 dark:text-zinc-400">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center text-sm">
               <div className="flex items-center justify-center space-x-2 mb-3">

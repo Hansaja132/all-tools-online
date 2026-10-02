@@ -6,6 +6,7 @@ import { siteConfig } from '@tools-website/config';
 import { Card, Button, SearchInput } from '@tools-website/ui';
 import { useSearchStore } from '../lib/store/search-store';
 import { useFavoritesStore } from '../lib/store/favorites-store';
+import { AdBanner, AdNativeCard } from '../components/ads';
 
 export default function HomePage() {
   const { query, setQuery, categoryFilter, setCategoryFilter } = useSearchStore();
@@ -97,6 +98,16 @@ export default function HomePage() {
               placeholder="Search by tool name, description, or keywords..."
             />
           </div>
+
+          {/* ========================================================================= */}
+          {/* AD SLOT: HOME BELOW SEARCH BANNER                                         */}
+          {/* Recommended Format: 728x90 Leaderboard (Desktop) / 320x50 (Mobile)         */}
+          {/* Suitable for: Adsterra 728x90 Banner or Monetag Banner                    */}
+          {/* UX Safety: High viewability directly below hero; reserved height stops CLS */}
+          {/* ========================================================================= */}
+          <div className="mt-8">
+            <AdBanner slotId="home-below-search" format="leaderboard" />
+          </div>
         </div>
 
         {/* Categories Section */}
@@ -127,43 +138,60 @@ export default function HomePage() {
         <div className="mt-12">
           {filteredTools.length > 0 ? (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {filteredTools.map((tool: any) => {
+              {filteredTools.map((tool: any, index: number) => {
                 const fav = isFavorite(tool.slug);
                 return (
-                  <Card key={tool.slug} hoverable className="flex flex-col justify-between relative group">
-                    <div>
-                      {/* Top Action Row */}
-                      <div className="flex items-center justify-between">
-                        <div className="rounded-lg bg-zinc-100 p-2.5 dark:bg-zinc-800">
-                          {getCategoryIcon(tool.category)}
+                  <React.Fragment key={tool.slug}>
+                    {/* ========================================================================= */}
+                    {/* AD SLOT: IN-FEED NATIVE SPONSORED CARD                                    */}
+                    {/* Blends smoothly into the tool grid as a native card with Sponsored badge. */}
+                    {/* Suitable for: Monetag Smartlink / Direct Link or Adsterra Native Widget   */}
+                    {/* UX Safety: Honest "Sponsored" label; 100% responsive and identical layout */}
+                    {/* ========================================================================= */}
+                    {index === 3 && (
+                      <AdNativeCard
+                        slotId="home-feed-sponsored"
+                        title="Recommended Developer & Cloud Tools"
+                        description="Explore top-rated cloud hosting, automated deployment pipelines, and design resources."
+                        ctaText="Explore Partner"
+                      />
+                    )}
+
+                    <Card hoverable className="flex flex-col justify-between relative group">
+                      <div>
+                        {/* Top Action Row */}
+                        <div className="flex items-center justify-between">
+                          <div className="rounded-lg bg-zinc-100 p-2.5 dark:bg-zinc-800">
+                            {getCategoryIcon(tool.category)}
+                          </div>
+                          <button
+                            onClick={() => toggleFavorite(tool.slug)}
+                            className="rounded-full p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-red-500 dark:hover:bg-zinc-800 transition-colors"
+                          >
+                            <Heart className={`h-5 w-5 ${fav ? 'fill-red-500 text-red-500' : ''}`} />
+                          </button>
                         </div>
-                        <button
-                          onClick={() => toggleFavorite(tool.slug)}
-                          className="rounded-full p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-red-500 dark:hover:bg-zinc-800 transition-colors"
-                        >
-                          <Heart className={`h-5 w-5 ${fav ? 'fill-red-500 text-red-500' : ''}`} />
-                        </button>
+
+                        {/* Tool Info */}
+                        <h3 className="mt-4 text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                          {tool.name}
+                        </h3>
+                        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400 line-clamp-3">
+                          {tool.description}
+                        </p>
                       </div>
 
-                      {/* Tool Info */}
-                      <h3 className="mt-4 text-lg font-bold text-zinc-900 dark:text-zinc-100">
-                        {tool.name}
-                      </h3>
-                      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400 line-clamp-3">
-                        {tool.description}
-                      </p>
-                    </div>
-
-                    {/* Footer Button Link */}
-                    <div className="mt-6">
-                      <a href={`/${tool.category}/${tool.slug}`} className="w-full inline-block">
-                        <Button variant="outline" className="w-full justify-between group-hover:bg-violet-50 dark:group-hover:bg-zinc-800 transition-colors text-sm">
-                          <span>Use Tool</span>
-                          <ArrowRight className="h-4 w-4" />
-                        </Button>
-                      </a>
-                    </div>
-                  </Card>
+                      {/* Footer Button Link */}
+                      <div className="mt-6">
+                        <a href={`/${tool.category}/${tool.slug}`} className="w-full inline-block">
+                          <Button variant="outline" className="w-full justify-between group-hover:bg-violet-50 dark:group-hover:bg-zinc-800 transition-colors text-sm">
+                            <span>Use Tool</span>
+                            <ArrowRight className="h-4 w-4" />
+                          </Button>
+                        </a>
+                      </div>
+                    </Card>
+                  </React.Fragment>
                 );
               })}
             </div>
@@ -175,6 +203,16 @@ export default function HomePage() {
               </Button>
             </div>
           )}
+        </div>
+
+        {/* ========================================================================= */}
+        {/* AD SLOT: HOME PRE-FAQ LEADERBOARD                                         */}
+        {/* Recommended Format: 728x90 Leaderboard / Responsive Horizontal            */}
+        {/* Suitable for: Monetag Banner or Adsterra Banner                           */}
+        {/* UX Safety: Positioned at section divide with ample breathing room         */}
+        {/* ========================================================================= */}
+        <div className="mt-20">
+          <AdBanner slotId="home-pre-faq" format="leaderboard" />
         </div>
 
         {/* FAQs Accordion */}

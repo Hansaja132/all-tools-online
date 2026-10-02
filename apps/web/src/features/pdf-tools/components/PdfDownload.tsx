@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Download, CheckCircle2, RotateCcw, FileText, ArrowDownRight } from 'lucide-react';
 import { Button } from '@tools-website/ui';
 import { formatBytes } from '../utils/pdfjs-init';
+import { AdBanner } from '../../../components/ads';
 
 interface PdfDownloadProps {
   onDownload: () => void;
@@ -109,6 +110,21 @@ export const PdfDownload: React.FC<PdfDownloadProps> = ({
       <p className="text-[11px] text-zinc-400">
         Processed locally in your browser • No files were uploaded
       </p>
+
+      {/* ========================================================================= */}
+      {/* AD SLOT: POST-ACTION DOWNLOAD BANNER (HIGH CONVERTING)                    */}
+      {/* Recommended Format: 300x250 Medium Rectangle or Responsive Horizontal      */}
+      {/* Network fit: Monetag Banner / Adsterra Banner or SmartLink recommendation */}
+      {/* UX Guarantee: Positioned AFTER the Download & Reset buttons so users      */}
+      {/* can download their file cleanly without deceptive clicks or traps.        */}
+      {/* ========================================================================= */}
+      <div className="w-full pt-4 border-t border-emerald-200/60 dark:border-emerald-900/40">
+        <AdBanner
+          slotId="tool-download-completion-banner"
+          format="rectangle"
+          label="SPONSORED"
+        />
+      </div>
     </div>
   );
 };
