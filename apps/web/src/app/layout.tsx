@@ -28,6 +28,9 @@ export const metadata: Metadata = {
   verification: {
     google: siteConfig.seo.googleSiteVerification,
   },
+  other: {
+    'google-adsense-account': siteConfig.seo.googleAdsenseAccount,
+  },
 };
 
 export default function RootLayout({
@@ -38,6 +41,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full" suppressHydrationWarning>
       <head>
+        <meta name="google-adsense-account" content={siteConfig.seo.googleAdsenseAccount} />
         <link rel="icon" href="/favicon.png" sizes="any" />
         <link rel="apple-touch-icon" href="/favicon.png" />
         <script

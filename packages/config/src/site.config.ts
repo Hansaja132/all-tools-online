@@ -31,6 +31,9 @@ export const siteConfig = {
     googleSiteVerification:
       process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ||
       'ufoJM2dgEgRecmQlmZYdkHJORg7wko5nQTkyuC2qAtM',
+    googleAdsenseAccount:
+      process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_ACCOUNT ||
+      'ca-pub-6122042652683931',
     openGraph: {
       type: 'website',
       locale: 'en_US',
