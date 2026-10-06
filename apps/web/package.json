@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@cantoo/pdf-lib": "^2.11.1",
     "@hookform/resolvers": "^3.3.1",
     "@tanstack/react-query": "^4.35.3",
     "@tools-website/config": "*",
@@ -18,12 +19,16 @@
     "axios": "^1.5.0",
     "clsx": "^2.0.0",
     "framer-motion": "^10.16.4",
+    "jszip": "^3.10.2",
     "lucide-react": "^0.292.0",
     "next": "^16.2.12",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^3.11.174",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.46.1",
     "tailwind-merge": "^2.0.0",
+    "tesseract.js": "^7.0.0",
     "zod": "^3.22.4",
     "zustand": "^4.4.1"
   },

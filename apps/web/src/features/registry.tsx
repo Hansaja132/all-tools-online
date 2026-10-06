@@ -16,6 +16,7 @@ import { LoremGenerator } from './text-tools/lorem-generator/tool-component';
 import { SlugGenerator } from './text-tools/slug-generator/tool-component';
 import { HTMLEntityTool } from './text-tools/html-entity/tool-component';
 import { FocusTimer } from './study-tools/focus-timer/tool-component';
+import { pdfToolsRegistry } from './pdf-tools/registry';
 
 export interface ToolRegistryItem {
   component: React.ComponentType;
@@ -326,4 +327,5 @@ export const toolsRegistry: Record<string, ToolRegistryItem> = {
       ],
     },
   },
+  ...pdfToolsRegistry,
 };

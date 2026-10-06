@@ -1,3 +1,5 @@
+import { pdfToolSeo } from './pdf-tool-seo';
+
 export interface ToolFeature {
   title: string;
   description: string;
@@ -1540,6 +1542,7 @@ export const toolSeo: Record<string, ToolSeoData> = {
     relatedToolSlugs: ['color-picker'],
     applicationCategory: 'MultimediaApplication',
   },
+  ...pdfToolSeo,
 };
 
 export function getToolSeo(categorySlug: string, toolSlug: string): ToolSeoData | undefined {

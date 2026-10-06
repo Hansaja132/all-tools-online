@@ -28,6 +28,8 @@ export default function HomePage() {
         return <Coins className="h-6 w-6 text-amber-500 animate-pulse" />;
       case 'study-tools':
         return <GraduationCap className="h-6 w-6 text-teal-400" />;
+      case 'pdf-tools':
+        return <FileText className="h-6 w-6 text-rose-500" />;
       default:
         return <Code2 className="h-6 w-6 text-zinc-500" />;
     }
