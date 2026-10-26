@@ -11,10 +11,12 @@ const getValidUrl = (url?: string, defaultUrl = 'http://localhost:3000') => {
 
 export const siteConfig = {
   name: 'MultiTools',
-  description: 'Free online client-side and backend developer, image, and text tools to speed up your workflow.',
-  url: getValidUrl(process.env.NEXT_PUBLIC_APP_URL, 'http://localhost:3000'),
+  description: 'Free online PDF, text, image, color, study, and developer tools with clear browser-side processing where supported.',
+  // The public search canonical must not change with the deployment provider URL.
+  // Use NEXT_PUBLIC_SITE_URL only when intentionally moving the production domain.
+  url: getValidUrl(process.env.NEXT_PUBLIC_SITE_URL, 'https://www.multi-tools.app'),
   apiUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1',
-  ogImage: 'https://multi-tools.com/og.png',
+  ogImage: 'https://www.multi-tools.app/api/og',
   author: 'MultiTools Inc',
   links: {
     github: 'https://github.com/tools-website',
@@ -26,7 +28,7 @@ export const siteConfig = {
   },
   seo: {
     titleTemplate: '%s | MultiTools',
-    defaultTitle: 'MultiTools - Free Online Multi-Tools Website',
+    defaultTitle: 'MultiTools - Free Online PDF, Text, Image & Developer Tools',
     twitterCard: 'summary_large_image',
     googleSiteVerification:
       process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ||

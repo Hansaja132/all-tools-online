@@ -11,12 +11,7 @@ export const UUIDGenerator: React.FC = () => {
   const [copied, setCopied] = React.useState(false);
 
   const generateUUID = () => {
-    // Standard RFC4122 v4 UUID generator fallback
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-      const r = (Math.random() * 16) | 0;
-      const v = c === 'x' ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
+    return crypto.randomUUID();
   };
 
   const handleGenerate = () => {
@@ -56,8 +51,9 @@ export const UUIDGenerator: React.FC = () => {
         <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100">Generator Options</h3>
 
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Quantity</label>
+          <label htmlFor="uuid-quantity" className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Quantity</label>
           <Select
+            id="uuid-quantity"
             value={count}
             onChange={(e) => setCount(Number(e.target.value))}
             options={[
@@ -92,7 +88,7 @@ export const UUIDGenerator: React.FC = () => {
       {/* Output Panel */}
       <div className="md:col-span-2 flex flex-col space-y-4">
         <div className="flex items-center justify-between">
-          <label className="text-base font-bold text-zinc-900 dark:text-zinc-100">Generated UUIDs</label>
+          <label htmlFor="uuid-output" className="text-base font-bold text-zinc-900 dark:text-zinc-100">Generated UUIDs</label>
           <div className="flex items-center space-x-2">
             <Button variant="outline" size="sm" onClick={handleDownload} className="flex items-center space-x-1.5">
               <Download className="h-4.5 w-4.5" />
@@ -114,6 +110,7 @@ export const UUIDGenerator: React.FC = () => {
           </div>
         </div>
         <Textarea
+          id="uuid-output"
           readOnly
           value={uuids.join('\n')}
           className="font-mono text-sm min-h-[300px] h-full"
