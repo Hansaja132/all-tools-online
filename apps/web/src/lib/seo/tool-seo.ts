@@ -152,7 +152,7 @@ export const toolSeo: Record<string, ToolSeoData> = {
     category: 'developer-tools',
     categoryName: 'Developer Tools',
     seoTitle: 'UUID Generator Online – Generate Random UUID v4',
-    metaDescription: 'Generate secure random UUID v4 identifiers online in bulk. Copy UUIDs instantly with customizable formatting options.',
+    metaDescription: 'Generate secure random UUID v4 identifiers online in batches of up to 100. Copy the list or download it as a text file.',
     primaryKeywords: ['UUID generator', 'UUID generator online', 'UUID v4 generator'],
     secondaryKeywords: [
       'random UUID generator',
@@ -166,7 +166,7 @@ export const toolSeo: Record<string, ToolSeoData> = {
     ],
     h1: 'UUID Generator Online (v4)',
     intro:
-      'Generate cryptographically random UUID (Universally Unique Identifier) version 4 identifiers online. Create single or bulk UUIDs with uppercase toggles, hyphen customizers, and one-click clipboard copying for databases, distributed systems, and testing.',
+      'Generate cryptographically random UUID (Universally Unique Identifier) version 4 identifiers online. Create 1 to 100 UUIDs at a time, switch between lowercase and uppercase, copy the list, or download a text file for databases, distributed systems, and testing.',
     whatIs: {
       heading: 'What is a UUID (Universally Unique Identifier)?',
       paragraphs: [
@@ -187,15 +187,11 @@ export const toolSeo: Record<string, ToolSeoData> = {
       },
       {
         title: 'Bulk Generation',
-        description: 'Generate up to hundreds of UUIDs simultaneously for database seeding, migrations, and mock data suites.',
+        description: 'Generate batches of 1, 5, 10, 50, or 100 UUIDs for database seeding, migrations, and mock data suites.',
       },
       {
         title: 'Uppercase & Lowercase Options',
         description: 'Toggle between standard lowercase hex notation and uppercase format required by legacy database schemas.',
-      },
-      {
-        title: 'Hyphen Separation Controls',
-        description: 'Format standard 8-4-4-4-12 hyphenated strings or compact 32-character continuous hex strings.',
       },
       {
         title: 'Instant Download & Copy',
@@ -207,15 +203,15 @@ export const toolSeo: Record<string, ToolSeoData> = {
       steps: [
         {
           name: 'Select quantity',
-          text: 'Choose how many UUIDs you need to generate (from 1 up to 100+ identifiers).',
+          text: 'Choose a batch size of 1, 5, 10, 50, or 100 UUIDs.',
         },
         {
           name: 'Configure casing and formatting',
-          text: 'Toggle uppercase letters or adjust hyphen preferences according to your database requirements.',
+          text: 'Choose standard lowercase or uppercase hexadecimal letters. UUIDs retain the standard hyphenated format.',
         },
         {
           name: 'Generate and copy',
-          text: 'Click Regenerate to refresh the list, then use Copy All or Download TXT to extract your identifiers.',
+          text: 'Click Regenerate to refresh the list, then use Copy List or Download TXT to export the identifiers.',
         },
       ],
     },
@@ -812,7 +808,7 @@ export const toolSeo: Record<string, ToolSeoData> = {
     ],
     h1: 'Case Converter – Convert Text Case Online',
     intro:
-      'Transform text instantly into any casing format. Convert strings between UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case, kebab-case, PascalCase, and CONSTANT_CASE with a single click.',
+      'Transform text instantly between UPPERCASE, lowercase, Title Case, camelCase, snake_case, kebab-case, PascalCase, CONSTANT_CASE, and dot.case. Copy any converted result with one click.',
     whatIs: {
       heading: 'What is a Case Converter and Why Do Naming Conventions Matter?',
       paragraphs: [
@@ -829,7 +825,7 @@ export const toolSeo: Record<string, ToolSeoData> = {
       },
       {
         title: 'Editorial & Text Styles',
-        description: 'Convert blocks of copy to UPPERCASE, lowercase, Title Case (capitalizing principal words), and Sentence case.',
+        description: 'Convert blocks of copy to UPPERCASE, lowercase, and simple Title Case.',
       },
       {
         title: 'Live Simultaneous Grid',
@@ -1357,9 +1353,9 @@ export const toolSeo: Record<string, ToolSeoData> = {
     name: 'Color Picker & Gradient',
     category: 'color-tools',
     categoryName: 'Color Tools',
-    seoTitle: 'Color Picker & Gradient Generator – HEX, RGB & CSS',
-    metaDescription: 'Pick colors online, convert HEX and RGB values, create color palettes, and generate CSS linear or radial gradients.',
-    primaryKeywords: ['color picker', 'color picker online', 'color palette generator'],
+    seoTitle: 'Gradient Color Picker & CSS Gradient Generator',
+    metaDescription: 'Choose two colors, preview linear or radial gradients, adjust the angle, and copy ready-to-use CSS with this gradient color picker.',
+    primaryKeywords: ['gradient color picker', 'CSS gradient generator', 'color picker online'],
     secondaryKeywords: [
       'HEX color picker',
       'RGB color picker',
@@ -1372,26 +1368,26 @@ export const toolSeo: Record<string, ToolSeoData> = {
       'color wheel',
       'online color picker',
     ],
-    h1: 'Color Picker & Gradient Generator',
+    h1: 'Gradient Color Picker & CSS Generator',
     intro:
-      'Pick colors, convert between HEX, RGB, and HSL formats, and build modern CSS linear and radial gradients. Export ready-to-use CSS code rules directly into your web and design projects.',
+      'Choose two colors with native color controls or HEX inputs, preview linear and radial gradients, adjust the linear angle, and copy ready-to-use CSS for your web projects.',
     whatIs: {
       heading: 'What is a Color Picker and CSS Gradient Builder?',
       paragraphs: [
         'Color harmony and consistent visual palettes are fundamental to user interface (UI) and user experience (UX) design. Front-end developers and graphic artists frequently need to translate between different digital color models, such as hexadecimal (HEX) notation used in stylesheets, RGB (Red, Green, Blue) channels, and HSL (Hue, Saturation, Lightness).',
         'In addition to solid colors, modern web design frequently incorporates smooth linear and radial background gradients to add visual depth, focus, and modern elegance to cards, hero banners, and buttons.',
-        'Our online Color Picker & Gradient Generator provides interactive color wheels, instant cross-format value conversions, angle and direction controls, and real-time CSS code output ready to copy into your Tailwind, Vanilla CSS, or Figma workflows.',
+        'This gradient color picker provides native color controls, editable HEX values, a linear-angle control, radial mode, live previews, and copyable CSS or Tailwind arbitrary-value snippets.',
       ],
     },
     featuresHeading: 'Color Picker & Gradient Features',
     features: [
       {
-        title: 'Interactive Color Wheel & Canvas',
-        description: 'Fine-tune hues, saturation, and lightness visually with a smooth canvas color picker.',
+        title: 'Native Color Controls & HEX Inputs',
+        description: 'Choose colors visually or edit the HEX values for each of the two gradient stops.',
       },
       {
-        title: 'Instant HEX & RGB Conversions',
-        description: 'Seamlessly convert between 6-character hexadecimal codes (#7C3AED) and RGB channel values (rgb(124, 58, 237)).',
+        title: 'Two-Color Gradient Stops',
+        description: 'Set the start and end colors for a clear two-stop gradient.',
       },
       {
         title: 'Linear & Radial Gradient Modes',
@@ -1454,7 +1450,7 @@ export const toolSeo: Record<string, ToolSeoData> = {
     category: 'image-tools',
     categoryName: 'Image Tools',
     seoTitle: 'QR Code Generator – Create Free PNG & SVG QR Codes',
-    metaDescription: 'Create QR codes for URLs, text, Wi-Fi, and email addresses. Download high-quality QR codes as PNG or SVG directly from your browser.',
+    metaDescription: 'Create a QR code from text or a URL in your browser. Download it as a crisp vector SVG or a 150–500 px PNG.',
     primaryKeywords: ['QR code generator', 'QR code generator online', 'free QR code generator'],
     secondaryKeywords: [
       'QR code maker',
@@ -1469,20 +1465,20 @@ export const toolSeo: Record<string, ToolSeoData> = {
     ],
     h1: 'QR Code Generator – Create Free QR Codes Online',
     intro:
-      'Generate customized, high-resolution QR codes online for URLs, plain text, Wi-Fi credentials, and contact details. Download clean vector SVG or raster PNG QR codes for print, packaging, and digital displays.',
+      'Create QR codes for plain text or URLs entirely in your browser. Download a scalable vector SVG for print or choose a 150, 300, or 500 pixel PNG for digital use.',
     whatIs: {
       heading: 'What is a QR Code and How Does it Work?',
       paragraphs: [
         'A Quick Response (QR) code is a two-dimensional matrix barcode invented in 1994 by Masahiro Hara of Denso Wave. Unlike standard 1D barcodes that only store data horizontally across parallel lines, QR codes store information both vertically and horizontally in a grid of dark modules on a light background, enabling them to hold hundreds of times more data.',
         'QR codes incorporate Reed-Solomon error correction algorithms, allowing scanners and smartphone cameras to read and decode the data accurately even if the physical code is partially obscured, smudged, or damaged (up to 30% error tolerance).',
-        'Our online QR code generator constructs your code directly in the browser using HTML5 Canvas and SVG technologies. No user links, Wi-Fi passwords, or text strings are uploaded to external tracking databases.',
+        'This QR code generator constructs the matrix directly in your browser and provides both raster PNG and vector SVG output. Your input is not sent to a third-party QR generation service.',
       ],
     },
     featuresHeading: 'QR Code Generator Highlights',
     features: [
       {
         title: 'Multi-Format Input Support',
-        description: 'Encode website URLs, plain text messages, contact emails, Wi-Fi network credentials, or phone numbers.',
+        description: 'Encode website URLs, plain text, or standard URI strings such as mailto and tel links.',
       },
       {
         title: 'High-Resolution Vector SVG & PNG',
@@ -1490,7 +1486,7 @@ export const toolSeo: Record<string, ToolSeoData> = {
       },
       {
         title: 'Custom Dimension Controls',
-        description: 'Adjust pixel dimensions from 150px up to 600px+ to ensure crisp scanning across packaging, posters, and menus.',
+        description: 'Choose a 150, 300, or 500 pixel PNG, or use SVG when you need resolution-independent output.',
       },
       {
         title: 'Built-in Error Correction',
@@ -1510,15 +1506,15 @@ export const toolSeo: Record<string, ToolSeoData> = {
       steps: [
         {
           name: 'Enter your data or URL',
-          text: 'Type or paste the webpage link, email address, or plain text you wish to encode into the data field.',
+          text: 'Type or paste the webpage link, URI, or plain text you wish to encode into the data field.',
         },
         {
           name: 'Adjust dimensions',
-          text: 'Select your preferred pixel resolution (e.g. 300x300 pixels for web or 600x600 for print).',
+          text: 'Select 150, 300, or 500 pixels for PNG output. SVG output scales independently of this setting.',
         },
         {
           name: 'Download QR code',
-          text: 'Click Download PNG to save your code to your device and test scan it with your smartphone camera.',
+          text: 'Download a PNG or SVG, then test the saved QR code with your smartphone camera before publishing it.',
         },
       ],
     },

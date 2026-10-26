@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   metadataBase: new URL(siteConfig.url),
+  alternates: {
+    canonical: siteConfig.url,
+  },
   icons: {
     icon: '/favicon.png',
     shortcut: '/favicon.png',
@@ -24,9 +27,25 @@ export const metadata: Metadata = {
     siteName: siteConfig.seo.openGraph.siteName,
     locale: siteConfig.seo.openGraph.locale,
     type: 'website',
+    images: [
+      {
+        url: `${siteConfig.url}/api/og?title=${encodeURIComponent('MultiTools')}&category=${encodeURIComponent('Free Online Tools')}&description=${encodeURIComponent(siteConfig.description)}`,
+        width: 1200,
+        height: 630,
+        alt: 'MultiTools free online tools',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: siteConfig.seo.defaultTitle,
+    description: siteConfig.description,
   },
   verification: {
     google: siteConfig.seo.googleSiteVerification,
+  },
+  other: {
+    'google-adsense-account': siteConfig.seo.googleAdsenseAccount,
   },
 };
 
@@ -38,6 +57,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full" suppressHydrationWarning>
       <head>
+        <meta name="google-adsense-account" content={siteConfig.seo.googleAdsenseAccount} />
         <link rel="icon" href="/favicon.png" sizes="any" />
         <link rel="apple-touch-icon" href="/favicon.png" />
         <script

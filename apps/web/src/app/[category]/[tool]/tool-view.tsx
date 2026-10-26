@@ -27,7 +27,6 @@ interface ToolViewProps {
     href: string;
   }[];
   breadcrumbJson: any;
-  webAppJson: any;
   howToJson: any;
 }
 
@@ -38,7 +37,6 @@ export function ToolView({
   children,
   relatedTools,
   breadcrumbJson,
-  webAppJson,
   howToJson,
 }: ToolViewProps) {
   const [activeFaq, setActiveFaq] = React.useState<number | null>(null);
@@ -54,10 +52,6 @@ export function ToolView({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJson) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJson) }}
       />
       <script
         type="application/ld+json"
@@ -93,7 +87,7 @@ export function ToolView({
           </h2>
           <ol className="relative border-l border-zinc-200 dark:border-zinc-800 space-y-6 ml-3.5">
             {seoData.howTo.steps.map((step, idx) => (
-              <li key={idx} className="mb-6 ml-6">
+              <li id={`step-${idx + 1}`} key={idx} className="mb-6 ml-6">
                 <span className="absolute -left-3.5 flex h-7 w-7 items-center justify-center rounded-full bg-violet-100 text-sm font-bold text-violet-700 dark:bg-violet-950 dark:text-violet-400 border border-violet-200 dark:border-violet-800">
                   {idx + 1}
                 </span>

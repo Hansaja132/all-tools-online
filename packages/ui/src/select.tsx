@@ -9,14 +9,17 @@ export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElemen
 
 export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
   ({ className, label, error, options, ...props }, ref) => {
+    const generatedId = React.useId();
+    const selectId = props.id || generatedId;
     return (
       <div className="w-full">
         {label && (
-          <label className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+          <label htmlFor={selectId} className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
             {label}
           </label>
         )}
         <select
+          id={selectId}
           ref={ref}
           className={cn(
             'flex h-10 w-full rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 transition-all focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500/20 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-violet-400 dark:focus:ring-violet-400/20 shadow-sm cursor-pointer',

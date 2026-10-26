@@ -79,6 +79,7 @@ export const Navbar: React.FC = () => {
           <div className="relative">
             <Search className="absolute inset-y-0 left-3 h-4 w-4 my-auto text-zinc-400" />
             <input
+              aria-label="Search tools"
               type="text"
               placeholder="Search tools..."
               value={query}
@@ -113,6 +114,7 @@ export const Navbar: React.FC = () => {
 
           {/* Mobile hamburger menu */}
           <button
+            aria-label="Open navigation menu"
             onClick={() => setMobileMenuOpen(true)}
             className="rounded-lg p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 md:hidden"
           >
@@ -133,6 +135,7 @@ export const Navbar: React.FC = () => {
           <div className="relative">
             <Search className="absolute inset-y-0 left-3 h-4 w-4 my-auto text-zinc-400" />
             <input
+              aria-label="Search tools"
               type="text"
               placeholder="Search tools..."
               value={query}

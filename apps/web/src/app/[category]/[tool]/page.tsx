@@ -6,7 +6,6 @@ import { toolsRegistry } from '../../../features/registry';
 import {
   generateBreadcrumbJsonLd,
   generateHowToJsonLd,
-  generateWebApplicationJsonLd,
 } from '@tools-website/utils';
 import { getToolSeo, getRelatedTools, toolSeo } from '../../../lib/seo/tool-seo';
 import { ToolView } from './tool-view';
@@ -123,13 +122,6 @@ export default async function ToolPage({ params }: PageProps) {
     { name: toolMeta.name, item: canonicalUrl },
   ]);
 
-  const webAppJson = generateWebApplicationJsonLd({
-    name: seoData.name,
-    description: seoData.metaDescription,
-    url: canonicalUrl,
-    applicationCategory: seoData.applicationCategory,
-  });
-
   const howToJson = generateHowToJsonLd(
     seoData.howTo.heading,
     seoData.metaDescription,
@@ -144,7 +136,6 @@ export default async function ToolPage({ params }: PageProps) {
       seoData={seoData}
       relatedTools={relatedTools}
       breadcrumbJson={breadcrumbJson}
-      webAppJson={webAppJson}
       howToJson={howToJson}
     >
       <ToolComponent />

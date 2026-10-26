@@ -10,7 +10,6 @@ import { useFavoritesStore } from '../lib/store/favorites-store';
 export default function HomePage() {
   const { query, setQuery, categoryFilter, setCategoryFilter } = useSearchStore();
   const { favorites, toggleFavorite, isFavorite } = useFavoritesStore();
-  const [newsletterEmail, setNewsletterEmail] = React.useState('');
   const [activeFaq, setActiveFaq] = React.useState<number | null>(null);
 
   // Map category slugs to icons
@@ -47,12 +46,6 @@ export default function HomePage() {
     return matchesSearch && matchesCategory;
   });
 
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert(`Thank you for subscribing with ${newsletterEmail}!`);
-    setNewsletterEmail('');
-  };
-
   const faqs = [
     {
       q: 'Are these tools free to use?',
@@ -79,13 +72,13 @@ export default function HomePage() {
         {/* Hero Section */}
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white sm:text-6xl">
-            All the developer tools you need in{' '}
+            Free online tools for documents, text, code, and{' '}
             <span className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent dark:from-violet-400 dark:to-indigo-400">
-              one place
+              more
             </span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
-            Free, fast, secure, and client-side online tools to boost your daily engineering and design productivity.
+            Use practical PDF, developer, image, text, color, crypto, and study tools. Tools that handle sensitive files explain when processing stays in your browser.
           </p>
 
           {/* Search Bar Container */}
@@ -138,6 +131,7 @@ export default function HomePage() {
                           {getCategoryIcon(tool.category)}
                         </div>
                         <button
+                          aria-label={`${fav ? 'Remove' : 'Add'} ${tool.name} ${fav ? 'from' : 'to'} favorites`}
                           onClick={() => toggleFavorite(tool.slug)}
                           className="rounded-full p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-red-500 dark:hover:bg-zinc-800 transition-colors"
                         >
@@ -211,24 +205,11 @@ export default function HomePage() {
           <div className="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.violet.800),theme(colors.zinc.900))] opacity-40" />
           <div className="mx-auto max-w-xl text-center">
             <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              Get notified when new tools are added.
+              More useful tools are on the way.
             </h2>
             <p className="mx-auto mt-4 max-w-md text-zinc-300">
-              No spam. Just updates on new generators, converters, encoders and productivity builders.
+              We are improving the existing toolkit before opening an email update list.
             </p>
-            <form onSubmit={handleNewsletterSubmit} className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-              <input
-                type="email"
-                required
-                value={newsletterEmail}
-                onChange={(e) => setNewsletterEmail(e.target.value)}
-                placeholder="Enter your email"
-                className="min-w-0 max-w-xs rounded-lg border border-transparent bg-white/10 px-4 py-2.5 text-base text-white placeholder-zinc-400 focus:border-white focus:outline-none focus:ring-2 focus:ring-white/20 sm:max-w-none"
-              />
-              <Button type="submit" variant="primary">
-                Subscribe
-              </Button>
-            </form>
           </div>
         </div>
       </div>
