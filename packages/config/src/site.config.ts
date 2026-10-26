@@ -1,22 +1,19 @@
-const getValidUrl = (url?: string, defaultUrl = 'http://localhost:3000') => {
-  if (!url) {
-    if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
-    return defaultUrl;
-  }
-  if (url.startsWith('http://') || url.startsWith('https://')) {
-    return url;
-  }
-  return `https://${url}`;
+const getCanonicalUrl = (url = 'https://www.multi-tools.app') => {
+  const normalizedUrl = url.trim().replace(/\/+$/, '');
+  return /^https?:\/\//i.test(normalizedUrl)
+    ? normalizedUrl
+    : `https://${normalizedUrl}`;
 };
+
+const canonicalUrl = getCanonicalUrl(process.env.NEXT_PUBLIC_SITE_URL);
 
 export const siteConfig = {
   name: 'MultiTools',
   description: 'Free online PDF, text, image, color, study, and developer tools with clear browser-side processing where supported.',
-  // The public search canonical must not change with the deployment provider URL.
-  // Use NEXT_PUBLIC_SITE_URL only when intentionally moving the production domain.
-  url: getValidUrl(process.env.NEXT_PUBLIC_SITE_URL, 'https://www.multi-tools.app'),
+  // Never fall back to VERCEL_URL because it is deployment-specific.
+  url: canonicalUrl,
   apiUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1',
-  ogImage: 'https://www.multi-tools.app/api/og',
+  ogImage: `${canonicalUrl}/api/og`,
   author: 'MultiTools Inc',
   links: {
     github: 'https://github.com/tools-website',
