@@ -14,7 +14,8 @@ export const siteConfig = {
   url: canonicalUrl,
   apiUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1',
   ogImage: `${canonicalUrl}/api/og`,
-  author: 'MultiTools Inc',
+  author: 'MultiTools team',
+  contactEmail: 'support@multi-tools.app',
   links: {
     github: 'https://github.com/tools-website',
     twitter: 'https://twitter.com/tools-website',

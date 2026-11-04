@@ -19,7 +19,7 @@ export default function PrivacyPage() {
   return (
     <article className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
       <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white">Privacy Policy</h1>
-      <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">Last updated: October 26, 2026</p>
+      <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">Last updated: November 4, 2026</p>
 
       <div className="mt-10 space-y-9 text-base leading-7 text-zinc-600 dark:text-zinc-300">
         <section>
@@ -39,7 +39,7 @@ export default function PrivacyPage() {
         <section>
           <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Accounts and communications</h2>
           <p className="mt-3">
-            If you create an account, the service may process the details you provide for authentication, account management, and security. The current homepage newsletter form is a user-interface preview and does not add your address to a mailing list.
+            If you create an account, the service may process the details you provide for authentication, account management, and security. If you email the contact address, the message and reply details are processed for support, correction, or privacy-request handling.
           </p>
         </section>
 

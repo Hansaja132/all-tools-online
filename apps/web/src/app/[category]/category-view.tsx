@@ -112,7 +112,7 @@ export function CategoryView({ category, categoryTools, breadcrumbJsonLd }: Cate
       {
         question: 'Are these online PDF tools safe and secure?',
         answer:
-          'Yes, 100%. All of our PDF tools process your files directly inside your web browser using modern WebAssembly and JavaScript libraries. Your documents are never uploaded to any remote server or cloud database, ensuring complete confidentiality for contracts, financial filings, and personal records.',
+          'The PDF tools process selected documents inside your browser rather than uploading them to a MultiTools file-processing server. You should still use a trusted device, keep backups, and avoid opening untrusted output without appropriate security checks.',
       },
       {
         question: 'Are all PDF tools free to use?',
@@ -127,12 +127,12 @@ export function CategoryView({ category, categoryTools, breadcrumbJsonLd }: Cate
       {
         question: 'What is the file size limit for PDF processing?',
         answer:
-          'Because file manipulation occurs locally using your device memory rather than remote server queues, you can comfortably process large documents with dozens of pages and high-resolution graphics.',
+          'There is no single reliable limit because processing uses your device memory. Large, image-heavy, encrypted, or unusually structured documents can be slow or fail, especially on mobile devices. Start with a copy of the original file.',
       },
       {
         question: 'Can I use these PDF tools on mobile devices?',
         answer:
-          'Yes, our entire PDF suite is fully mobile-responsive and supports touchscreen gestures, file pickers, and camera scans across iOS and Android.',
+          'The interface is responsive and can work in current mobile browsers, but large documents may exceed mobile memory. Not every tool uses a camera or supports every browser-specific file picker.',
       },
     ];
 
@@ -158,7 +158,7 @@ export function CategoryView({ category, categoryTools, breadcrumbJsonLd }: Cate
           <div className="flex flex-wrap items-center justify-between gap-4">
             <span className="inline-flex items-center space-x-2 rounded-full bg-rose-50 px-3.5 py-1 text-xs font-semibold text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 border border-rose-200/80 dark:border-rose-900/60">
               <ShieldCheck className="h-4 w-4" />
-              <span>100% Client-Side Privacy • Zero Server Uploads</span>
+              <span>Document processing runs in your browser</span>
             </span>
             <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
               20 Free PDF Utilities Available
@@ -170,15 +170,14 @@ export function CategoryView({ category, categoryTools, breadcrumbJsonLd }: Cate
           </h1>
 
           <p className="mt-4 text-base sm:text-lg leading-relaxed text-zinc-600 dark:text-zinc-300 max-w-4xl">
-            Welcome to the ultimate suite of free online <strong>PDF tools</strong> designed for
-            professionals, students, and businesses. Whether you need a powerful{' '}
+            Choose a focused <strong>PDF tool</strong> for a common document task. Whether you need a{' '}
             <strong>PDF editor</strong> to add watermarks and page numbers, a fast{' '}
             <strong>PDF converter</strong> to transform pages to JPG or PNG, a high-efficiency{' '}
             <strong>PDF compressor</strong> to shrink email attachments, a versatile{' '}
             <strong>PDF merger</strong> to combine documents, or a flexible{' '}
-            <strong>PDF splitter</strong> to isolate specific pages—our utilities execute directly
-            in your browser memory. Enjoy instant, private, and unlimited document processing
-            without software installations.
+            <strong>PDF splitter</strong> to isolate specific pages, the selected document is processed
+            in browser memory rather than sent to a MultiTools file-processing server. Performance
+            depends on the size and complexity of the document and the memory available on your device.
           </p>
 
           {/* Quick Search Filter */}
@@ -343,11 +342,10 @@ export function CategoryView({ category, categoryTools, breadcrumbJsonLd }: Cate
               retained.
             </p>
             <p>
-              Our free <strong>online PDF tools</strong> offer the best of both worlds: zero-install
-              simplicity paired with absolute client-side privacy. Utilizing cutting-edge
-              WebAssembly execution and HTML5 canvas engines, every conversion, compression, merge,
-              split, and signature operation executes directly on your own computer CPU. Your files
-              are processed locally in browser memory and are never uploaded across the internet.
+              These <strong>online PDF tools</strong> use browser APIs and client-side libraries for
+              conversion, compression, organization, and annotation. The selected document stays in
+              browser memory instead of being submitted to a MultiTools conversion server. The page
+              may still download the application code or OCR resources required to perform the task.
             </p>
           </div>
         </section>
