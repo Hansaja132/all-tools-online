@@ -12,13 +12,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
   };
 
   // Category pages
-  const categoryRoutes: MetadataRoute.Sitemap = siteConfig.categories.map((category) => ({
-    url: `${baseUrl}/${category.slug}`,
-    changeFrequency: 'weekly',
-    priority: 0.8,
-  }));
+  // Keep single-tool taxonomy pages available for navigation without presenting
+  // them to search engines as standalone destination pages.
+  const categoryRoutes: MetadataRoute.Sitemap = siteConfig.categories
+    .filter(
+      (category) =>
+        siteConfig.tools.filter((tool) => tool.category === category.slug).length > 1
+    )
+    .map((category) => ({
+      url: `${baseUrl}/${category.slug}`,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    }));
 
-  const trustRoutes: MetadataRoute.Sitemap = ['privacy', 'terms'].map((path) => ({
+  const trustRoutes: MetadataRoute.Sitemap = [
+    'about',
+    'contact',
+    'editorial-policy',
+    'privacy',
+    'terms',
+  ].map((path) => ({
     url: `${baseUrl}/${path}`,
     changeFrequency: 'yearly',
     priority: 0.3,

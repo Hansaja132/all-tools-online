@@ -72,6 +72,12 @@ export const Navbar: React.FC = () => {
               items={categoryItems}
             />
           </div>
+          <a
+            href="/about"
+            className="hidden text-sm font-semibold text-zinc-700 hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-white md:block"
+          >
+            About
+          </a>
         </div>
 
         {/* Global Nav Search input */}
@@ -159,6 +165,11 @@ export const Navbar: React.FC = () => {
                 {c.name}
               </a>
             ))}
+          </div>
+
+          <div className="flex flex-col space-y-3 border-t border-zinc-100 pt-4 dark:border-zinc-800">
+            <a href="/about" onClick={() => setMobileMenuOpen(false)} className="font-medium text-zinc-700 dark:text-zinc-300">About</a>
+            <a href="/contact" onClick={() => setMobileMenuOpen(false)} className="font-medium text-zinc-700 dark:text-zinc-300">Contact</a>
           </div>
 
           {/* Mobile theme adjust */}

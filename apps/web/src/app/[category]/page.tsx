@@ -28,6 +28,8 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 
   const baseUrl = siteConfig.url.replace(/\/$/, '');
   const canonicalUrl = `${baseUrl}/${category.slug}`;
+  const toolCount = siteConfig.tools.filter((tool) => tool.category === category.slug).length;
+  const shouldIndex = toolCount > 1;
 
   if (category.slug === 'pdf-tools') {
     const title = 'Free Online PDF Tools - Convert, Compress, Edit & Merge PDFs | MultiTools';
@@ -70,7 +72,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
         description,
       },
       robots: {
-        index: true,
+        index: shouldIndex,
         follow: true,
       },
     };
@@ -99,7 +101,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
       description,
     },
     robots: {
-      index: true,
+      index: shouldIndex,
       follow: true,
     },
   };

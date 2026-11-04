@@ -200,16 +200,45 @@ export default function HomePage() {
           </dl>
         </div>
 
-        {/* Newsletter Signup Banner */}
-        <div className="relative mt-32 overflow-hidden rounded-3xl bg-zinc-900 px-6 py-20 shadow-xl dark:bg-zinc-950 sm:px-12 sm:py-24">
+        {/* Site standards and ownership */}
+        <section className="mt-32" aria-labelledby="why-heading">
+          <div className="text-center">
+            <h2 id="why-heading" className="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
+              Useful tools, explained honestly
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-zinc-600 dark:text-zinc-400">
+              A working utility is only useful when you understand what it does, where your data goes, and what its limits are.
+            </p>
+          </div>
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {[
+              ['Working outcomes', 'Each published tool is built around a specific result you can copy, download, or use immediately.'],
+              ['Plain-language guidance', 'Tool pages include steps, practical context, and limitations instead of keyword-only descriptions.'],
+              ['Visible accountability', 'Our review approach, privacy practices, and correction contact are available to every visitor.'],
+            ].map(([title, description]) => (
+              <div key={title} className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900/50">
+                <h3 className="font-bold text-zinc-900 dark:text-white">{title}</h3>
+                <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">{description}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-6 text-center text-sm text-zinc-600 dark:text-zinc-400">
+            Read <a href="/about" className="font-semibold text-violet-600 hover:underline dark:text-violet-400">how MultiTools is maintained</a> or <a href="/contact" className="font-semibold text-violet-600 hover:underline dark:text-violet-400">report a problem</a>.
+          </p>
+        </section>
+
+        <div className="relative mt-24 overflow-hidden rounded-3xl bg-zinc-900 px-6 py-16 shadow-xl dark:bg-zinc-950 sm:px-12 sm:py-20">
           <div className="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.violet.800),theme(colors.zinc.900))] opacity-40" />
           <div className="mx-auto max-w-xl text-center">
             <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              More useful tools are on the way.
+              Find a tool that needs improvement?
             </h2>
             <p className="mx-auto mt-4 max-w-md text-zinc-300">
-              We are improving the existing toolkit before opening an email update list.
+              Tell us what failed, which browser you used, and what result you expected. Specific feedback helps us improve the utility for everyone.
             </p>
+            <a href="/contact" className="mt-7 inline-flex rounded-xl bg-white px-5 py-2.5 text-sm font-bold text-zinc-900 hover:bg-zinc-100">
+              Contact the MultiTools team
+            </a>
           </div>
         </div>
       </div>
