@@ -34,6 +34,9 @@ export const siteConfig = {
     googleAdsenseAccount:
       process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_ACCOUNT ||
       'ca-pub-6122042652683931',
+    googleTagManagerId:
+      process.env.NEXT_PUBLIC_GTM_ID ||
+      'GTM-PCBBF62J',
     openGraph: {
       type: 'website',
       locale: 'en_US',

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import * as React from 'react';
+import Script from 'next/script';
 import { siteConfig } from '@tools-website/config';
 import { ClientProviders } from '../components/client-providers';
 import { Navbar } from '../components/navbar';
@@ -81,6 +82,21 @@ export default function RootLayout({
         />
       </head>
       <body className="flex min-h-screen flex-col bg-zinc-50 dark:bg-zinc-950 font-sans">
+        {siteConfig.seo.googleTagManagerId && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtm.js?id=${siteConfig.seo.googleTagManagerId}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-tag-manager" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+              `}
+            </Script>
+          </>
+        )}
         <ClientProviders>
           <Navbar />
           <main className="flex-grow">
