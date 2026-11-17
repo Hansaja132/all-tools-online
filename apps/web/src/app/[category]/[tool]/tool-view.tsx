@@ -28,6 +28,7 @@ interface ToolViewProps {
   }[];
   breadcrumbJson: any;
   howToJson: any;
+  faqJson: any;
 }
 
 export function ToolView({
@@ -38,6 +39,7 @@ export function ToolView({
   relatedTools,
   breadcrumbJson,
   howToJson,
+  faqJson,
 }: ToolViewProps) {
   const [activeFaq, setActiveFaq] = React.useState<number | null>(null);
 
@@ -56,6 +58,10 @@ export function ToolView({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJson) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJson) }}
       />
 
       {/* Semantic Navigation Breadcrumbs */}

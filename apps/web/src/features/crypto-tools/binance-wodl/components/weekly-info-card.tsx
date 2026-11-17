@@ -61,7 +61,8 @@ export const WeeklyInfoCard: React.FC<WeeklyInfoCardProps> = ({
         </div>
 
         {/* Theme Selector Dropdown */}
-        <div className="relative shrink-0" ref={dropdownRef}>
+        {/* REMOVED : Theme selector only keeping current theme */}
+        {/* <div className="relative shrink-0" ref={dropdownRef}>
           <button
             type="button"
             onClick={() => setIsDropdownOpen((prev) => !prev)}
@@ -105,7 +106,7 @@ export const WeeklyInfoCard: React.FC<WeeklyInfoCardProps> = ({
               })}
             </div>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );
