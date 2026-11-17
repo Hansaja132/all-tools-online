@@ -5,6 +5,7 @@ import { siteConfig } from '@tools-website/config';
 import { toolsRegistry } from '../../../features/registry';
 import {
   generateBreadcrumbJsonLd,
+  generateFAQJsonLd,
   generateHowToJsonLd,
 } from '@tools-website/utils';
 import { getToolSeo, getRelatedTools, toolSeo } from '../../../lib/seo/tool-seo';
@@ -128,6 +129,7 @@ export default async function ToolPage({ params }: PageProps) {
     seoData.howTo.steps,
     canonicalUrl
   );
+  const faqJson = generateFAQJsonLd(seoData.faqs);
 
   return (
     <ToolView
@@ -137,6 +139,7 @@ export default async function ToolPage({ params }: PageProps) {
       relatedTools={relatedTools}
       breadcrumbJson={breadcrumbJson}
       howToJson={howToJson}
+      faqJson={faqJson}
     >
       <ToolComponent />
     </ToolView>
