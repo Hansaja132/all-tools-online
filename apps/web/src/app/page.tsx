@@ -7,6 +7,31 @@ import { Card, Button, SearchInput } from '@tools-website/ui';
 import { useSearchStore } from '../lib/store/search-store';
 import { useFavoritesStore } from '../lib/store/favorites-store';
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://www.multi-tools.app/#website",
+      "name": "Multi Tools",
+      "url": "https://www.multi-tools.app/",
+      "description": "Multi Tools provides free online utilities for productivity, PDF tasks, generators, and text conversion."
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://www.multi-tools.app/#webapp",
+      "name": "Multi Tools",
+      "url": "https://www.multi-tools.app/",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "description": "A collection of online tools including PDF utilities, UUID generators, QR code generators, color pickers, and text converters.",
+      "isPartOf": {
+        "@id": "https://www.multi-tools.app/#website"
+      }
+    }
+  ]
+};
+
 export default function HomePage() {
   const { query, setQuery, categoryFilter, setCategoryFilter } = useSearchStore();
   const { favorites, toggleFavorite, isFavorite } = useFavoritesStore();
@@ -62,7 +87,14 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="relative isolate overflow-hidden">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
+        }}
+      />
+      <div className="relative isolate overflow-hidden">
       {/* Dynamic Background Glows */}
       <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
         <div className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-violet-300 to-indigo-600 opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" />
@@ -243,5 +275,6 @@ export default function HomePage() {
         </div>
       </div>
     </div>
+  </>
   );
 }
