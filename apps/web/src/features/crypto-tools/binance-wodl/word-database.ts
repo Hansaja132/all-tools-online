@@ -4,16 +4,16 @@ import { CandidateWord, WodlTheme } from './types';
 export const PRE_SEEDED_THEMES: WodlTheme[] = [
   {
     id: 'theme-current',
-    theme: 'Stock Options Got Better',
-    weekRange: 'Nov 16, 2026 - Nov 22, 2026',
+    theme: 'TradFi Products on Binance',
+    weekRange: 'Nov 23, 2026 - Nov 29, 2026',
     categoryTag: 'Stocks',
     words: {
       3: ['ETF', 'FEE', 'PUT', 'BUY'],
-      4: ['RISK', 'CALL', 'SPOT', 'LONG'],
-      5: ['TRADE', 'HEDGE', 'ASSET', 'INDEX', 'STOCK'],
-      6: ['EXPIRY', 'OPTION', 'STRIKE'],
-      7: ['PREMIUM', 'TRADING'],
-      8: ['INVESTOR', 'DIVIDEND', 'EXCHANGE', 'SECURITY'],
+      4: ['RISK', 'BOND', '', ''],
+      5: ['TRADE', 'HEDGE', 'ASSET', 'TOKEN', 'STOCK'],
+      6: ['ACCESS', 'OPTION', 'FUTURE', 'MARKET', 'EQUITY', 'MARGIN'],
+      7: ['CONNECT', 'CONVERT','TRADING'],
+      8: ['CONTRACT', 'DIVIDEND', 'EXCHANGE', 'SECURITY'],
     },
   },
 ];
